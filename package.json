@@ -2,6 +2,7 @@
   "name": "galaxy_movers",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,9 +10,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "jose": "^6.2.3",
+    "lucide-react": "^0.468.0",
+    "mysql2": "^3.22.3",
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-quill-new": "^3.8.3",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
