@@ -16,9 +16,6 @@ export default function Footer() {
   const quickLinks = [
     { name: 'About Our Company', href: '/about' },
     { name: 'Book Appointment', href: '/book-appointment' },
-    { name: 'Our Services', href: '/#services' },
-    { name: 'Why Choose Us', href: '/#why-us' },
-    { name: 'Customer Reviews', href: '/#testimonials' },
     { name: 'Our Blog & Tips', href: '/blog' }
   ];
 
@@ -37,7 +34,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-400 pt-16 pb-8 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Column 1: About & Socials */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center space-x-2">
@@ -89,7 +86,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Coast to Coast Service Cities */}
-          <div>
+          {/* <div>
             <h3 className="text-white font-bold text-base mb-6 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-8 after:h-0.5 after:bg-red-600">
               Service Areas
             </h3>
@@ -100,7 +97,7 @@ export default function Footer() {
                 </Link>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Column 4: Contact Us */}
           <div className="space-y-5">
@@ -150,9 +147,8 @@ export default function Footer() {
             &copy; {currentYear} Galaxy Movers Canada. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Sitemap</a>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

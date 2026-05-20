@@ -25,8 +25,9 @@ export default function Header() {
   const isHome = pathname === '/';
 
   const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
     { name: 'Locations', href: '/locations' },
-    { name: 'About Us', href: '/about' },
     { name: 'Book Appointment', href: '/book-appointment' },
     { name: 'Blog', href: '/blog' }
   ];

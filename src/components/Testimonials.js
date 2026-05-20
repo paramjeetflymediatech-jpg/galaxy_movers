@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { Star, MessageSquare } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, MessageSquare, User } from 'lucide-react';
 
 export default function Testimonials() {
   const [activeIdx, setActiveIdx] = useState(0);
-
-  const reviews = [
+  const [reviews, setReviews] = useState([
     {
       name: 'Sarah Johnson',
       location: 'Vancouver, BC',
@@ -42,7 +41,24 @@ export default function Testimonials() {
       date: 'May 2026',
       content: 'Professional, friendly, and super efficient! They completed our move faster than expected and everything arrived in perfect condition. 10/10 would use again!'
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    async function fetchActiveReviews() {
+      try {
+        const res = await fetch('/api/testimonials');
+        const data = await res.json();
+        if (data.success && data.reviews && data.reviews.length > 0) {
+          setReviews(data.reviews);
+        }
+      } catch (err) {
+        console.error('Error fetching dynamic reviews:', err);
+      }
+    }
+    fetchActiveReviews();
+  }, []);
+
+  const currentReview = reviews[activeIdx] || reviews[0] || {};
 
   return (
     <section id="testimonials" className="bg-gray-50 py-20 lg:py-28 relative scroll-mt-20">
@@ -102,29 +118,38 @@ export default function Testimonials() {
             <div className="space-y-6 relative z-10">
               {/* Stars Row */}
               <div className="flex items-center space-x-1">
-                {[...Array(reviews[activeIdx].rating)].map((_, i) => (
+                {[...Array(currentReview.rating || 5)].map((_, i) => (
                   <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
                 ))}
               </div>
 
               {/* Review Text */}
               <p className="text-base sm:text-lg text-gray-700 italic font-medium leading-relaxed">
-                "{reviews[activeIdx].content}"
+                "{currentReview.content}"
               </p>
             </div>
 
             {/* Author Footer */}
             <div className="pt-6 mt-8 border-t border-gray-50 flex items-center justify-between">
-              <div className="flex flex-col">
-                <span className="font-extrabold text-gray-900 text-base leading-snug">
-                  {reviews[activeIdx].name}
-                </span>
-                <span className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-0.5">
-                  Verified Relocation &bull; {reviews[activeIdx].location}
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 bg-gray-100 rounded-full border border-gray-200 overflow-hidden flex items-center justify-center shrink-0">
+                  {currentReview.avatar_url ? (
+                    <img src={currentReview.avatar_url} alt={currentReview.name} className="h-full w-full object-cover" />
+                  ) : (
+                    <User className="h-4.5 w-4.5 text-gray-400" />
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-gray-900 text-base leading-snug">
+                    {currentReview.name}
+                  </span>
+                  <span className="text-xs text-gray-500 font-bold uppercase tracking-wider mt-0.5">
+                    Verified Relocation &bull; {currentReview.location}
+                  </span>
+                </div>
               </div>
-              <span className="text-xs font-bold text-red-600 bg-red-50 py-1 px-3 rounded-full">
-                {reviews[activeIdx].date}
+              <span className="text-xs font-bold text-red-650 bg-red-50 py-1.5 px-3.5 rounded-full border border-red-100 shrink-0">
+                {currentReview.date}
               </span>
             </div>
 

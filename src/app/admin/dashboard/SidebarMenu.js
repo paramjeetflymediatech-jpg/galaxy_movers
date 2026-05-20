@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, BookOpen, Settings, LogOut, Calendar, Briefcase, MapPin } from 'lucide-react';
+import { Home, BookOpen, Settings, LogOut, Calendar, Briefcase, MapPin, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 
 export default function SidebarMenu() {
@@ -16,6 +16,7 @@ export default function SidebarMenu() {
     { name: 'States & Districts', href: '/admin/dashboard/locations', icon: <MapPin className="h-4.5 w-4.5" /> },
     { name: 'Manage Services', href: '/admin/dashboard/services', icon: <Briefcase className="h-4.5 w-4.5" /> },
     { name: 'Manage Blogs', href: '/admin/dashboard/blogs', icon: <BookOpen className="h-4.5 w-4.5" /> },
+    { name: 'Testimonials', href: '/admin/dashboard/testimonials', icon: <MessageSquare className="h-4.5 w-4.5" /> },
     { name: 'SEO Settings', href: '/admin/dashboard/seo', icon: <Settings className="h-4.5 w-4.5" /> }
   ];
 

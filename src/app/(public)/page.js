@@ -15,8 +15,7 @@ export default function Home() {
       <Features />
       <Services />
       <WhyUs />
-      <Stats />
-      <Locations />
+      <Stats /> 
       <Testimonials />
       <PromoBanner />
       <FAQ />

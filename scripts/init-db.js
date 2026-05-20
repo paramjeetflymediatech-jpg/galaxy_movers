@@ -12,6 +12,7 @@ import State from '../src/models/State.js';
 import District from '../src/models/District.js';
 import Location from '../src/models/Location.js';
 import ServiceLocation from '../src/models/ServiceLocation.js';
+import Testimonial from '../src/models/Testimonial.js';
 
 async function main() {
   const host = process.env.DB_HOST || 'localhost';
@@ -485,6 +486,55 @@ async function main() {
     }
   } else {
     console.log('Location data already seeded.');
+  }
+
+  // Seed Testimonials
+  const existingTestimonials = await Testimonial.count();
+  if (existingTestimonials === 0) {
+    const initialReviews = [
+      {
+        name: 'Sarah Johnson',
+        location: 'Vancouver, BC',
+        rating: 5,
+        date: 'April 2026',
+        content: 'Galaxy Movers made our cross-country move completely stress-free! The team was professional, punctual, and handled our belongings with extreme care. Highly recommend!'
+      },
+      {
+        name: 'Michael Chen',
+        location: 'Toronto, ON',
+        rating: 5,
+        date: 'March 2026',
+        content: 'Best moving experience ever! They packed everything perfectly, nothing was damaged, and they even assembled our furniture at the new place. Worth every penny.'
+      },
+      {
+        name: 'Emily Rodriguez',
+        location: 'Calgary, AB',
+        rating: 5,
+        date: 'April 2026',
+        content: 'Amazing service from start to finish. The quote was accurate, no hidden fees, and the movers were incredibly efficient. Made our office relocation seamless!'
+      },
+      {
+        name: 'David Thompson',
+        location: 'Montreal, QC',
+        rating: 5,
+        date: 'February 2026',
+        content: 'I was worried about moving my antique furniture, but Galaxy Movers handled everything with such care. They exceeded all my expectations. Thank you!'
+      },
+      {
+        name: 'Jessica Kim',
+        location: 'Ottawa, ON',
+        rating: 5,
+        date: 'May 2026',
+        content: 'Professional, friendly, and super efficient! They completed our move faster than expected and everything arrived in perfect condition. 10/10 would use again!'
+      }
+    ];
+
+    for (const review of initialReviews) {
+      await Testimonial.create(review);
+    }
+    console.log('Seeded default testimonials.');
+  } else {
+    console.log('Testimonials already seeded.');
   }
 
   console.log('Database initialization completed successfully!');
