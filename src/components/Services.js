@@ -1,35 +1,42 @@
 import { Home, Briefcase, Navigation, Package, Hammer, Warehouse } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Services() {
   const services = [
     {
       icon: <Home className="h-6 w-6 text-red-600" />,
       title: 'Residential Moving',
+      slug: 'residential-moving',
       description: 'Whether it is a cozy studio, a high-rise condo, or a spacious family home, our crew handles your personal belongings with extreme care.'
     },
     {
       icon: <Briefcase className="h-6 w-6 text-red-600" />,
       title: 'Commercial & Office Moves',
+      slug: 'commercial-office-moves',
       description: 'Streamline your business relocation. We safely transport IT infrastructure, heavy machinery, office desks, and sensitive archives with zero downtime.'
     },
     {
       icon: <Navigation className="h-6 w-6 text-red-600" />,
       title: 'Long Distance Relocations',
+      slug: 'long-distance-relocations',
       description: 'Reliable cross-provincial moving. Our structured freight networks and dedicated long-haul trucks connect communities coast to coast.'
     },
     {
       icon: <Package className="h-6 w-6 text-red-600" />,
       title: 'Professional Packing Services',
+      slug: 'professional-packing-services',
       description: 'Delegate the wrap and seal. We bring premium double-walled moving boxes, bubble sheets, packing paper, and specialty glass protection.'
     },
     {
       icon: <Hammer className="h-6 w-6 text-red-600" />,
       title: 'Furniture Disassembly & Assembly',
+      slug: 'furniture-disassembly-assembly',
       description: 'Skip the Allen keys. Our team disassembles complex bed frames, modular wardrobes, and desks, then re-assembles them perfectly at your destination.'
     },
     {
       icon: <Warehouse className="h-6 w-6 text-red-600" />,
       title: 'Secure Storage Solutions',
+      slug: 'secure-storage-solutions',
       description: 'Flexible short and long-term storage vault options in our modern, climate-controlled, 24/7 CCTV protected national warehouse spaces.'
     }
   ];
@@ -74,15 +81,15 @@ export default function Services() {
               </div>
 
               <div className="pt-6 mt-6 border-t border-gray-50">
-                <a 
-                  href="#quote-form" 
-                  className="text-red-600 hover:text-red-700 font-bold text-xs uppercase tracking-wider flex items-center group/btn"
+                <Link 
+                  href={`/services/${service.slug}`}
+                  className="text-red-600 hover:text-red-700 font-bold text-xs uppercase tracking-wider flex items-center"
                 >
-                  <span>Select Service</span>
-                  <span className="ml-1.5 group-hover/btn:translate-x-1.5 transition-transform duration-200">
+                  <span>Learn More</span>
+                  <span className="ml-1.5 group-hover:translate-x-1.5 transition-transform duration-200">
                     &rarr;
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           ))}

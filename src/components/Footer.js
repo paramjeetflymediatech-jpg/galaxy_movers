@@ -14,22 +14,24 @@ export default function Footer() {
   ];
 
   const quickLinks = [
+    { name: 'About Our Company', href: '/about' },
+    { name: 'Book Appointment', href: '/book-appointment' },
     { name: 'Our Services', href: '/#services' },
     { name: 'Why Choose Us', href: '/#why-us' },
     { name: 'Customer Reviews', href: '/#testimonials' },
-    { name: 'Get a Free Quote', href: '/#quote-form' },
     { name: 'Our Blog & Tips', href: '/blog' }
   ];
 
+
   const cities = [
-    { name: 'Vancouver, BC', href: '/#cities' },
-    { name: 'Toronto, ON', href: '/#cities' },
-    { name: 'Calgary, AB', href: '/#cities' },
-    { name: 'Montreal, QC', href: '/#cities' },
-    { name: 'Edmonton, AB', href: '/#cities' },
-    { name: 'Ottawa, ON', href: '/#cities' },
-    { name: 'Winnipeg, MB', href: '/#cities' },
-    { name: 'Quebec City, QC', href: '/#cities' }
+    { name: 'Vancouver, BC', href: '/locations' },
+    { name: 'Toronto, ON', href: '/locations' },
+    { name: 'Calgary, AB', href: '/locations' },
+    { name: 'Montreal, QC', href: '/locations' },
+    { name: 'Edmonton, AB', href: '/locations' },
+    { name: 'Ottawa, ON', href: '/locations' },
+    { name: 'Winnipeg, MB', href: '/locations' },
+    { name: 'Quebec City, QC', href: '/locations' }
   ];
 
   return (

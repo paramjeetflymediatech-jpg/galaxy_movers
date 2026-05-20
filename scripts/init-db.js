@@ -7,7 +7,11 @@ import sequelize from '../src/lib/db.js';
 import User from '../src/models/User.js';
 import Blog from '../src/models/Blog.js';
 import Seo from '../src/models/Seo.js';
-import Lead from '../src/models/Lead.js';
+import Service from '../src/models/Service.js';
+import State from '../src/models/State.js';
+import District from '../src/models/District.js';
+import Location from '../src/models/Location.js';
+import ServiceLocation from '../src/models/ServiceLocation.js';
 
 async function main() {
   const host = process.env.DB_HOST || 'localhost';
@@ -35,7 +39,7 @@ async function main() {
   // Seed default Admin User
   const adminEmail = 'admin@galaxymovers.ca';
   const existingAdmin = await User.findOne({ where: { email: adminEmail } });
-  
+
   if (!existingAdmin) {
     const hashedPassword = await bcrypt.hash('Admin@12345', 10);
     await User.create({
@@ -78,6 +82,82 @@ async function main() {
       og_title: 'Moving Insights & Checklists | Galaxy Movers Canada',
       og_description: 'Discover expert moving strategies, packing hacks, and country-wide relocation guides.',
       og_image: '/images/blog-default.jpg'
+    },
+    {
+      page_path: '/about',
+      title: 'About Galaxy Movers | Canada\'s Trusted Moving Experts',
+      description: 'Learn about Galaxy Movers Canada, our professional background, state-of-the-art trucks, and commitment to stress-free relocation services across Canada.',
+      keywords: 'about galaxy movers, professional movers, moving company history, Canadian movers',
+      canonical_url: 'https://galaxymovers.ca/about',
+      og_title: 'About Us | Galaxy Movers Canada',
+      og_description: 'Discover the story, mission, and professional credentials behind Canada\'s top relocation specialists.'
+    },
+    {
+      page_path: '/book-appointment',
+      title: 'Book a Moving Appointment | Galaxy Movers Canada',
+      description: 'Schedule your professional moving date, select a convenient time slot, and secure your booking details with our coast-to-coast relocation team.',
+      keywords: 'book moving appointment, schedule movers, reserve moving date, local movers booking',
+      canonical_url: 'https://galaxymovers.ca/book-appointment',
+      og_title: 'Book Your Moving Appointment | Galaxy Movers Canada',
+      og_description: 'Schedule your relocation date and details with our expert movers today.'
+    },
+    {
+      page_path: '/services',
+      title: 'Our Moving Services | Galaxy Movers Canada',
+      description: 'Explore our complete range of professional moving services including residential moving, office moves, long-distance relocation, packing, and secure storage.',
+      keywords: 'moving services, residential movers, office moving, long distance movers, packing services, storage solutions',
+      canonical_url: 'https://galaxymovers.ca/services',
+      og_title: 'Our Moving Services | Galaxy Movers Canada',
+      og_description: 'Explore our complete range of professional moving services.'
+    },
+    {
+      page_path: '/services/residential-moving',
+      title: 'Residential Moving Services | Galaxy Movers Canada',
+      description: 'Stress-free residential moving services. From studio apartments to large family homes, our expert crew handles your belongings with absolute care.',
+      keywords: 'residential moving, house movers, apartment moving, local movers',
+      canonical_url: 'https://galaxymovers.ca/services/residential-moving'
+    },
+    {
+      page_path: '/services/commercial-office-moves',
+      title: 'Commercial & Office Moves | Galaxy Movers Canada',
+      description: 'Minimize downtime with our efficient commercial moving services. We safely transport IT gear, workstations, archives, and office furniture.',
+      keywords: 'commercial moving, office relocation, office movers, business move',
+      canonical_url: 'https://galaxymovers.ca/services/commercial-office-moves'
+    },
+    {
+      page_path: '/services/long-distance-relocations',
+      title: 'Long Distance Relocations | Galaxy Movers Canada',
+      description: 'Reliable cross-provincial moving services. Our structured freight networks and long-haul fleets connect communities coast to coast.',
+      keywords: 'long distance moving, cross province movers, long haul moving, out of province movers',
+      canonical_url: 'https://galaxymovers.ca/services/long-distance-relocations'
+    },
+    {
+      page_path: '/services/professional-packing-services',
+      title: 'Professional Packing Services | Galaxy Movers Canada',
+      description: 'Delegate the packing and wrapping to the experts. We bring premium moving boxes, packing sheets, bubble wrap, and crating materials.',
+      keywords: 'packing services, moving boxes packing, professional packers, fragile wrapping',
+      canonical_url: 'https://galaxymovers.ca/services/professional-packing-services'
+    },
+    {
+      page_path: '/services/furniture-disassembly-assembly',
+      title: 'Furniture Disassembly & Assembly | Galaxy Movers Canada',
+      description: 'Save time and effort on moving day. Our crew disassembles complex bed frames, modular wardrobes, and desks, then rebuilds them securely.',
+      keywords: 'furniture disassembly, furniture assembly, bed frame assembly, office desk setup',
+      canonical_url: 'https://galaxymovers.ca/services/furniture-disassembly-assembly'
+    },
+    {
+      page_path: '/services/secure-storage-solutions',
+      title: 'Secure Storage Solutions | Galaxy Movers Canada',
+      description: 'Flexible short and long-term storage vault options. Modern, climate-controlled, 24/7 CCTV protected national warehouse spaces.',
+      keywords: 'secure storage, moving storage, climate controlled storage, storage vaults',
+      canonical_url: 'https://galaxymovers.ca/services/secure-storage-solutions'
+    },
+    {
+      page_path: '/locations',
+      title: 'Service Locations Across Canada | Galaxy Movers Canada',
+      description: 'Find Galaxy Movers service locations across Ontario, British Columbia, Alberta, Quebec, and Manitoba. Select your province and city to schedule a move.',
+      keywords: 'moving locations, local moving company, canada movers, moving services by city',
+      canonical_url: 'https://galaxymovers.ca/locations'
     }
   ];
 
@@ -174,6 +254,237 @@ async function main() {
     }
   } else {
     console.log('Sample blog posts already exist.');
+  }
+
+  // Seed sample Services if none exist
+  const existingServices = await Service.count();
+  if (existingServices === 0) {
+    const sampleServices = [
+      {
+        name: 'Residential Moving',
+        slug: 'residential-moving',
+        description: 'Whether it is a cozy studio, a high-rise condo, or a spacious family home, our crew handles your personal belongings with extreme care.',
+        content: `<h2>Top-Tier Home Moving Services Across Canada</h2>
+<p>Relocating to a new home is one of life’s major transitions, and at <strong>Galaxy Movers Canada</strong>, we make sure it is a positive one. Our highly trained, background-checked residential moving crews handle every aspect of your household relocation, ensuring your furniture, electronics, and personal treasures arrive safely.</p>
+<h3>Our Comprehensive Residential Moving Process</h3>
+<ul>
+  <li><strong>Detailed Home Inspection & Inventory Planning:</strong> We audit the furniture pieces and box quantities to designate the right truck size and protective wraps.</li>
+  <li><strong>Safe Disassembly:</strong> We disassemble large beds, wardrobes, and complex furniture tables for secure transport, then reassemble them at your new address.</li>
+  <li><strong>Loading with Advanced Equipment:</strong> Our clean, modern fleets are equipped with premium ramps, dollies, straps, and thick moving blankets to load cargo efficiently without damaging doors or floors.</li>
+</ul>
+<p>From local apartment moves within the city to cross-province residential relocations, we provide upfront flat-rate scheduling with zero hidden costs. Partner with Canada’s trusted residential movers today!</p>`,
+        faqs: JSON.stringify([
+          { q: 'Is my furniture insured during the move?', a: 'Yes. Galaxy Movers Canada provides full cargo insurance coverage for your household goods during loading, transit, and unloading.' },
+          { q: 'Do you provide boxes for residential moves?', a: 'Yes, we offer premium packing supplies including double-walled boxes, bubble wrap, and wardrobe boxes, or you can purchase them directly from us.' }
+        ])
+      },
+      {
+        name: 'Commercial & Office Moves',
+        slug: 'commercial-office-moves',
+        description: 'Streamline your business relocation. We safely transport IT infrastructure, heavy machinery, office desks, and sensitive archives with zero downtime.',
+        content: `<h2>Seamless Corporate & Office Relocations</h2>
+<p>Office moving requires speed, precision, and coordination to minimize downtime. Galaxy Movers operates a dedicated commercial logistics division specializing in office relocations, retail store setups, and warehouse transit. We coordinate with your building management to meet strict scheduling rules and elevator availability guidelines.</p>
+<h3>Our Corporate Relocation Capabilities</h3>
+<ul>
+  <li><strong>IT & Tech Relocation:</strong> Sensitive handling and packing of servers, computer workstations, networks, and communication racks.</li>
+  <li><strong>Office Furniture Logistics:</strong> Quick breakdown and rebuilding of modular cubicles, desks, and executive conference suites.</li>
+  <li><strong>Secure Document Transport:</strong> Safe transit for confidential documents, employee files, and business archives.</li>
+</ul>
+<p>We work nights, weekends, and holidays to get your business up and running on time. Contact our corporate moving consultants to schedule a site walk-through.</p>`,
+        faqs: JSON.stringify([
+          { q: 'Can you perform office moves outside normal working hours?', a: 'Absolutely. We offer overnight and weekend commercial moves so your business operations remain completely uninterrupted.' },
+          { q: 'Do you provide certificate of insurance (COI) for commercial buildings?', a: 'Yes, we can issue a COI specifying your commercial landlords as additional insured parties prior to moving day.' }
+        ])
+      },
+      {
+        name: 'Long Distance Relocations',
+        slug: 'long-distance-relocations',
+        description: 'Reliable cross-provincial moving. Our structured freight networks and dedicated long-haul trucks connect communities coast to coast.',
+        content: `<h2>Coast-to-Coast Long-Distance Freight Services</h2>
+<p>Moving across provinces is a complex logistical challenge. Galaxy Movers operates one of Canada’s most reliable long-distance freight networks, connecting communities from British Columbia to Quebec. We provide dedicated long-haul containers, scheduled departures, and real-time GPS tracking so you know exactly where your cargo is.</p>
+<h3>Why Choose Us for Cross-Provincial Moves?</h3>
+<ul>
+  <li><strong>Dedicated Cargo Trucks:</strong> No co-mingling of your goods with other clients unless requested, reducing handling risk.</li>
+  <li><strong>Experienced Highway Drivers:</strong> Seasoned professional drivers trained to navigate tricky Canadian highway corridors and winter passes safely.</li>
+  <li><strong>Flat-Rate Long-Distance Estimates:</strong> We lock in your rates upfront based on cargo inventory, shielding you from variable weight scales.</li>
+</ul>
+<p>Enjoy a smooth transition to your new province. Our team handles the logistics, route planning, and unloading at your destination.</p>`,
+        faqs: JSON.stringify([
+          { q: 'How long does a cross-province long-distance move take?', a: 'Typically, long-distance moves take between 3 to 9 business days depending on the exact route, weather conditions, and distance.' },
+          { q: 'How do you track long-distance shipments?', a: 'Our long-haul trucks are equipped with active GPS tracking. You can contact your dedicated relocation coordinator at any time for live status updates.' }
+        ])
+      },
+      {
+        name: 'Professional Packing Services',
+        slug: 'professional-packing-services',
+        description: 'Delegate the wrap and seal. We bring premium double-walled moving boxes, bubble sheets, packing paper, and specialty glass protection.',
+        content: `<h2>Full-Service Custom Packing & Unpacking</h2>
+<p>Packing is often the most time-consuming part of moving. Save time and protect your belongings with our professional packing services. Our certified packers wrap every item individually, utilizing specialty crating for art, custom cell dividers for glassware, and double-walled containers for electronics.</p>
+<h3>Our Custom Packing Solutions</h3>
+<ul>
+  <li><strong>Full Packing:</strong> We pack every single drawer, closet, shelf, and cabinet in your home.</li>
+  <li><strong>Partial Packing:</strong> We wrap only designated items, like fragile kitchen dishes, artwork, or high-value items.</li>
+  <li><strong>Unpacking & Organization:</strong> We unbox all items and place them on shelves or countertops, taking away all cardboard waste.</li>
+</ul>
+<p>Let our professional team take the stress out of your hands. We use commercial-grade boxes and padding designed for high-density stack protection.</p>`,
+        faqs: JSON.stringify([
+          { q: 'Do you pack clothes on hangers?', a: 'Yes! We use specialized wardrobe boxes that allow clothes to remain on their hangers, avoiding wrinkles and making unpacking easy.' },
+          { q: 'What materials do you use for packing fragile items?', a: 'We use double-walled moving boxes, thick bubble wrap, acid-free packing paper, and edge protectors to isolate and shield fragile goods.' }
+        ])
+      },
+      {
+        name: 'Furniture Disassembly & Assembly',
+        slug: 'furniture-disassembly-assembly',
+        description: 'Skip the Allen keys. Our team disassembles complex bed frames, modular wardrobes, and desks, then re-assembles them perfectly at your destination.',
+        content: `<h2>Expert Furniture Assembly & Custom Handling</h2>
+<p>Skip the stress of Allen keys and heavy lifting. Our moving crews are equipped with professional toolkits to disassemble complex furniture frames, heavy wardrobes, dining tables, and workstations, rebuilding them securely at your destination.</p>
+<h3>Furniture We Regularly Service:</h3>
+<ul>
+  <li><strong>Modular Beds & Bunkbeds:</strong> Complete teardown and structurally secure rebuilding.</li>
+  <li><strong>Cubicles & Desks:</strong> Commercial workstation assembly, monitor mounts, and cord routing.</li>
+  <li><strong>Heavy Dining & Boardroom Tables:</strong> Safe leg removal, flat padding, and solid transit alignment.</li>
+</ul>
+<p>We keep track of all screws, bolts, and mounting brackets, ensuring everything is put back together exactly as it should be.</p>`,
+        faqs: JSON.stringify([
+          { q: 'Is there an extra charge for basic furniture disassembly?', a: 'No. Basic disassembly and assembly of standard bed frames and dining tables are included in our moving packages.' },
+          { q: 'Can you mount televisions or wall shelving at the new home?', a: 'We handle furniture assembly, but we do not drill into drywall to mount TVs or heavy wall shelves due to structural liability.' }
+        ])
+      },
+      {
+        name: 'Secure Storage Solutions',
+        slug: 'secure-storage-solutions',
+        description: 'Flexible short and long-term storage vault options in our modern, climate-controlled, 24/7 CCTV protected national warehouse spaces.',
+        content: `<h2>Climate-Controlled Short & Long-Term Storage</h2>
+<p>If your new home isn’t ready yet, or you need extra space, Galaxy Movers offers secure, climate-controlled storage vaults. Our warehouses feature round-the-clock CCTV cameras, digital security locks, and temperature regulators to prevent dust, moisture, or heat damage.</p>
+<h3>Premium Storage Features:</h3>
+<ul>
+  <li><strong>Climate & Humidity Controls:</strong> Ideal for musical instruments, antique wooden furniture, and leather goods.</li>
+  <li><strong>24/7 Monitored Protection:</strong> Secure facilities guarded by active alarms, CCTV feeds, and on-site logs.</li>
+  <li><strong>Vault Packaging:</strong> Items are wrapped in protective moving blankets and stacked into secure, dust-free wooden vaults.</li>
+</ul>
+<p>We offer flexible monthly plans for short-term transit storage or multi-year long-term safekeeping.</p>`,
+        faqs: JSON.stringify([
+          { q: 'How do I access my stored items?', a: 'To access your storage vault, simply contact us 48 hours in advance to schedule a supervised warehouse visit.' },
+          { q: 'Do you offer self-storage units?', a: 'No, our warehouse is a managed vault facility. We pack, load, and store your vault containers for you, ensuring maximum security and space efficiency.' }
+        ])
+      }
+    ];
+
+    for (const serviceItem of sampleServices) {
+      await Service.create(serviceItem);
+      console.log(`Seeded service post: ${serviceItem.name}`);
+    }
+  } else {
+    console.log('Sample services already exist.');
+  }
+
+  // Seed sample States, Districts, Locations, and Service-Locations if none exist
+  const existingStates = await State.count();
+  if (existingStates === 0) {
+    console.log('Seeding location tables...');
+    const rawProvinces = [
+      {
+        name: 'Ontario',
+        slug: 'ontario',
+        districts: [
+          { name: 'Greater Toronto Area', cities: ['Toronto'] },
+          { name: 'National Capital Region', cities: ['Ottawa'] },
+          { name: 'Peel Region', cities: ['Mississauga', 'Brampton'] },
+          { name: 'Golden Horseshoe', cities: ['Hamilton'] },
+          { name: 'Southwestern Ontario', cities: ['London'] }
+        ]
+      },
+      {
+        name: 'British Columbia',
+        slug: 'british-columbia',
+        districts: [
+          { name: 'Metro Vancouver', cities: ['Vancouver', 'Surrey', 'Burnaby'] },
+          { name: 'Vancouver Island', cities: ['Victoria'] },
+          { name: 'Okanagan Valley', cities: ['Kelowna'] }
+        ]
+      },
+      {
+        name: 'Alberta',
+        slug: 'alberta',
+        districts: [
+          { name: 'Calgary Region', cities: ['Calgary'] },
+          { name: 'Edmonton Capital Region', cities: ['Edmonton'] },
+          { name: 'Central Alberta', cities: ['Red Deer'] },
+          { name: 'Southern Alberta', cities: ['Lethbridge'] }
+        ]
+      },
+      {
+        name: 'Quebec',
+        slug: 'quebec',
+        districts: [
+          { name: 'Greater Montreal', cities: ['Montreal', 'Laval'] },
+          { name: 'Capitale-Nationale', cities: ['Quebec City'] },
+          { name: 'National Capital Region', cities: ['Gatineau'] }
+        ]
+      },
+      {
+        name: 'Manitoba',
+        slug: 'manitoba',
+        districts: [
+          { name: 'Winnipeg Capital Region', cities: ['Winnipeg'] },
+          { name: 'Westman Region', cities: ['Brandon'] }
+        ]
+      }
+    ];
+
+    const dbServices = await Service.findAll();
+
+    for (const prov of rawProvinces) {
+      const stateObj = await State.create({ name: prov.name, slug: prov.slug, is_active: true });
+      console.log(`Seeded state/province: ${prov.name}`);
+
+      for (const dist of prov.districts) {
+        const distObj = await District.create({ name: dist.name, state_id: stateObj.id });
+        console.log(`  Seeded district/region: ${dist.name}`);
+
+        for (const city of dist.cities) {
+          const citySlug = city.toLowerCase().replace(/\s+/g, '-');
+          const locObj = await Location.create({
+            name: city,
+            slug: citySlug,
+            state_id: stateObj.id,
+            district_id: distObj.id
+          });
+          console.log(`    Seeded city/location: ${city}`);
+
+          // Link all services to this city
+          for (const svc of dbServices) {
+            await ServiceLocation.create({
+              service_id: svc.id,
+              location_id: locObj.id,
+              description: `Professional ${svc.name} in ${city}, ${prov.name}. Our experienced, fully-insured crew handles all packing, transit, and unloading safely.`,
+              content: `<h2>Top-Tier ${svc.name} Services in ${city}, ${prov.name}</h2>
+<p>Relocating can be a stressful endeavor, but with <strong>Galaxy Movers Canada</strong>, your transition in ${city} will be seamless. Our professional, background-checked moving crews specialize in ${svc.name}, ensuring that every item is wrapped, stacked, and transported with ultimate care.</p>
+<h3>Why Choose Galaxy Movers in ${city}?</h3>
+<ul>
+  <li><strong>Local & Regional Expertise:</strong> Deep familiarity with ${city} neighborhoods, local parking regulations, and building elevator rules.</li>
+  <li><strong>Full Protection Coverage:</strong> Comprehensive cargo insurance options for absolute peace of mind throughout the move.</li>
+  <li><strong>No Hidden Costs:</strong> Clear, transparent quotes matching your exact inventory parameters.</li>
+</ul>
+<p>Get in touch with our moving coordinators or book your move date online in seconds!</p>`,
+              faqs: svc.faqs
+            });
+
+            // Seed SEO path
+            const path = `/${prov.slug}/${svc.slug}-in-${citySlug}`;
+            await Seo.create({
+              page_path: path,
+              title: `${svc.name} in ${city} | Galaxy Movers Canada`,
+              description: `Need professional ${svc.name} in ${city}? Galaxy Movers offers licensed, insured moving crew, flat rates, and premium boxes. Book online!`,
+              keywords: `${svc.slug} in ${city}, ${city} movers, moving company ${city}`
+            });
+            console.log(`      Linked service ${svc.name} and created SEO path: ${path}`);
+          }
+        }
+      }
+    }
+  } else {
+    console.log('Location data already seeded.');
   }
 
   console.log('Database initialization completed successfully!');

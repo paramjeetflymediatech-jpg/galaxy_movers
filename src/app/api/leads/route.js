@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Lead from '@/models/Lead';
 import { verifyToken } from '@/lib/auth';
+import { sendAdminNotificationEmail } from '@/lib/nodemailer';
 
 // Public Quote Submission
 export async function POST(req) {
@@ -24,6 +25,56 @@ export async function POST(req) {
       movingTo,
       details,
       status: 'new'
+    });
+
+    // Send email notification to admin asynchronously
+    const emailSubject = `New Moving Quote Request: ${fullName}`;
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaebed; border-radius: 12px; background-color: #ffffff;">
+        <h2 style="color: #dc2626; margin-top: 0; font-size: 20px; font-weight: 800;">New Moving Quote Request</h2>
+        <p style="color: #4b5563; font-size: 14px; line-height: 1.5;">A new request has been submitted through the Galaxy Movers website quotes form.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280; width: 35%;">Customer Name</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${fullName}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280;">Phone Number</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${phone}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280;">Email Address</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${email}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280;">Moving Date</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${movingDate}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280;">Moving From</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${movingFrom}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-weight: bold; font-size: 13px; color: #6b7280;">Moving To</td>
+            <td style="padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; font-weight: 600; color: #111827;">${movingTo}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; font-weight: bold; font-size: 13px; color: #6b7280; vertical-align: top;">Additional Details</td>
+            <td style="padding: 10px; font-size: 13px; color: #374151; line-height: 1.5; white-space: pre-wrap;">${details || 'None provided.'}</td>
+          </tr>
+        </table>
+        
+        <div style="margin-top: 30px; text-align: center; border-top: 1px solid #f3f4f6; padding-top: 20px;">
+          <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/dashboard/leads" style="background-color: #dc2626; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 700; display: inline-block; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.15);">
+            Manage Leads in Dashboard
+          </a>
+        </div>
+      </div>
+    `;
+
+    sendAdminNotificationEmail(emailSubject, emailHtml).catch(err => {
+      console.error('Failed sending admin notification email on Lead POST:', err);
     });
 
     return NextResponse.json(

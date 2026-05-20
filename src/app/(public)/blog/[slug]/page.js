@@ -162,17 +162,17 @@ export default async function BlogDetail({ params }) {
         <div className="bg-gray-50 border border-gray-100 rounded-3xl p-8 md:p-10 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mt-16">
           <div className="space-y-2 text-center md:text-left">
             <h3 className="text-xl font-extrabold text-gray-900">
-              Moving Soon? Get a Free Estimate
+              Planning a Move?
             </h3>
             <p className="text-sm text-gray-500 font-semibold leading-relaxed">
-              Find out how much your move costs. Fill our form in 60 seconds and lock a 15% discount.
+              Secure your premium moving date online today and save 15%.
             </p>
           </div>
           <Link 
-            href="/#quote-form" 
+            href="/book-appointment" 
             className="bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-7 rounded-xl shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-sm flex items-center shrink-0 w-full md:w-auto justify-center cursor-pointer"
           >
-            <span>Get Free Quote Now</span>
+            <span>Book Appointment Now</span>
             <ArrowRight className="h-4.5 w-4.5 ml-2 stroke-[2.5]" />
           </Link>
         </div>

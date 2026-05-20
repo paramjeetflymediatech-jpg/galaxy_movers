@@ -1,17 +1,7 @@
-'use client';
-
 import { ArrowRight, Phone, ShieldCheck, Zap } from 'lucide-react';
-
+import Link from 'next/link';
 
 export default function Hero() {
-  const handleScrollToQuote = (e) => {
-    e.preventDefault();
-    const elem = document.getElementById('quote-form');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-red-950 text-white py-24 lg:py-32 flex items-center">
       {/* Background patterns */}
@@ -44,14 +34,13 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <a
-                href="#quote-form"
-                onClick={handleScrollToQuote}
+              <Link
+                href="/book-appointment"
                 className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-8 rounded-lg shadow-xl shadow-red-600/20 hover:shadow-red-600/35 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center cursor-pointer text-base group"
               >
                 <span>Book Your Move</span>
                 <ArrowRight className="h-5 w-5 ml-2.5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
 
               <a
                 href="tel:18005551234"

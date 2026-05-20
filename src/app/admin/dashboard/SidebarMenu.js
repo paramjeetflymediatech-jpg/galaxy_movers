@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Inbox, BookOpen, Settings, LogOut } from 'lucide-react';
+import { Home, BookOpen, Settings, LogOut, Calendar, Briefcase, MapPin } from 'lucide-react';
 import { useState } from 'react';
 
 export default function SidebarMenu() {
@@ -12,7 +12,9 @@ export default function SidebarMenu() {
 
   const menuItems = [
     { name: 'Overview', href: '/admin/dashboard', icon: <Home className="h-4.5 w-4.5" /> },
-    { name: 'Quote Requests', href: '/admin/dashboard/leads', icon: <Inbox className="h-4.5 w-4.5" /> },
+    { name: 'Appointments', href: '/admin/dashboard/appointments', icon: <Calendar className="h-4.5 w-4.5" /> },
+    { name: 'States & Districts', href: '/admin/dashboard/locations', icon: <MapPin className="h-4.5 w-4.5" /> },
+    { name: 'Manage Services', href: '/admin/dashboard/services', icon: <Briefcase className="h-4.5 w-4.5" /> },
     { name: 'Manage Blogs', href: '/admin/dashboard/blogs', icon: <BookOpen className="h-4.5 w-4.5" /> },
     { name: 'SEO Settings', href: '/admin/dashboard/seo', icon: <Settings className="h-4.5 w-4.5" /> }
   ];
