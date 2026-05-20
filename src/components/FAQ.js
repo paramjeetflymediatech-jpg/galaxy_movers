@@ -47,7 +47,7 @@ export default function FAQ() {
             FAQ Section
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-            Got Questions? We\'ve Got Answers
+            Got Questions? We have Got Answers
           </h2>
           <div className="w-12 h-1 bg-red-600 mx-auto rounded-full"></div>
           <p className="text-base text-gray-500 font-medium">
