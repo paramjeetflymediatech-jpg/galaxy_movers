@@ -1,13 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Edit2, Trash2, X, Check, Loader2, MapPin, Globe, Building } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Check, Loader2, MapPin, Globe, Building, Search } from 'lucide-react';
 
 export default function LocationsManager({ initialStates, initialDistricts, initialLocations }) {
   const [activeTab, setActiveTab] = useState('states'); // 'states', 'districts', or 'locations'
   const [states, setStates] = useState(initialStates || []);
   const [districts, setDistricts] = useState(initialDistricts || []);
   const [locations, setLocations] = useState(initialLocations || []);
+  
+  // Search & Pagination States for Cities/Locations
+  const [citySearchQuery, setCitySearchQuery] = useState('');
+  const [cityCurrentPage, setCityCurrentPage] = useState(1);
+  const citiesPerPage = 15;
   
   // Loading & Error States
   const [isLoading, setIsLoading] = useState(false);
@@ -309,6 +314,23 @@ export default function LocationsManager({ initialStates, initialDistricts, init
       }
     }
   };
+
+  const filteredCities = locations.filter((loc) => {
+    const q = citySearchQuery.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      loc.name.toLowerCase().includes(q) ||
+      loc.slug.toLowerCase().includes(q) ||
+      (loc.State?.name && loc.State.name.toLowerCase().includes(q)) ||
+      (loc.District?.name && loc.District.name.toLowerCase().includes(q))
+    );
+  });
+
+  const cityTotalPages = Math.ceil(filteredCities.length / citiesPerPage);
+  const paginatedCities = filteredCities.slice(
+    (cityCurrentPage - 1) * citiesPerPage,
+    cityCurrentPage * citiesPerPage
+  );
 
   return (
     <div className="space-y-6">
@@ -689,23 +711,38 @@ export default function LocationsManager({ initialStates, initialDistricts, init
           {!isEditingLocation ? (
             <>
               {/* Action Bar */}
-              <div className="flex justify-between items-center bg-white p-4 border border-gray-150 rounded-2xl shadow-sm">
-                <span className="text-sm font-bold text-gray-500">
-                  {locations.length} Cities / Catchment Areas Configured
-                </span>
-                <button
-                  onClick={handleOpenCreateLocation}
-                  disabled={states.length === 0 || districts.length === 0}
-                  type="button"
-                  className="bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-2 px-5 rounded-xl shadow-lg hover:shadow-red-600/15 flex items-center text-sm cursor-pointer"
-                >
-                  <Plus className="h-4.5 w-4.5 mr-1.5" />
-                  <span>Add City</span>
-                </button>
+              <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center bg-white p-4 border border-gray-150 rounded-t-2xl shadow-sm gap-4">
+                <div className="relative flex-grow max-w-md">
+                  <Search className="absolute left-3.5 top-3 h-4.5 w-4.5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search cities, regions, provinces or slugs..."
+                    value={citySearchQuery}
+                    onChange={(e) => {
+                      setCitySearchQuery(e.target.value);
+                      setCityCurrentPage(1);
+                    }}
+                    className="w-full bg-gray-55 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2 pl-11 pr-4 rounded-xl focus:outline-none transition-all font-semibold"
+                  />
+                </div>
+                <div className="flex items-center justify-between md:justify-end gap-4 shrink-0">
+                  <span className="text-xs font-bold text-gray-450">
+                    {filteredCities.length} found ({locations.length} total)
+                  </span>
+                  <button
+                    onClick={handleOpenCreateLocation}
+                    disabled={states.length === 0 || districts.length === 0}
+                    type="button"
+                    className="bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-2 px-5 rounded-xl shadow-lg hover:shadow-red-600/15 flex items-center text-sm cursor-pointer whitespace-nowrap"
+                  >
+                    <Plus className="h-4.5 w-4.5 mr-1.5" />
+                    <span>Add City</span>
+                  </button>
+                </div>
               </div>
 
               {/* Cities Table */}
-              <div className="bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-sm">
+              <div className="bg-white border border-gray-150 border-t-0 rounded-b-2xl overflow-hidden shadow-sm">
                 <table className="min-w-full divide-y divide-gray-100 text-left text-sm font-semibold">
                   <thead className="bg-gray-50 text-gray-400 text-xs font-bold uppercase tracking-wider">
                     <tr>
@@ -717,15 +754,17 @@ export default function LocationsManager({ initialStates, initialDistricts, init
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 text-gray-700">
-                    {locations.length === 0 ? (
+                    {paginatedCities.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="text-center py-10 text-gray-400 font-medium">
-                          No cities/locations configured. Add your first city!
+                        <td colSpan="5" className="text-center py-12 text-gray-450 font-bold">
+                          {locations.length === 0 
+                            ? "No cities/locations configured. Add your first city!"
+                            : "No cities/locations found matching your search query."}
                         </td>
                       </tr>
                     ) : (
-                      locations.map((loc) => (
-                        <tr key={loc.id} className="hover:bg-gray-50/50 transition-colors">
+                      paginatedCities.map((loc) => (
+                        <tr key={loc.id} className="hover:bg-gray-55/30 transition-colors">
                           <td className="px-6 py-4 font-extrabold text-gray-900">{loc.name}</td>
                           <td className="px-6 py-4 font-mono text-xs text-gray-500">/{loc.slug}</td>
                           <td className="px-6 py-4">
@@ -743,7 +782,7 @@ export default function LocationsManager({ initialStates, initialDistricts, init
                             <button
                               onClick={() => handleOpenEditLocation(loc)}
                               type="button"
-                              className="text-gray-400 hover:text-red-600 p-1.5 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+                              className="text-gray-400 hover:text-red-600 p-1.5 hover:bg-gray-55 rounded-lg cursor-pointer transition-colors"
                             >
                               <Edit2 className="h-4 w-4" />
                             </button>
@@ -760,6 +799,62 @@ export default function LocationsManager({ initialStates, initialDistricts, init
                     )}
                   </tbody>
                 </table>
+
+                {/* Cities Pagination Bar */}
+                {cityTotalPages > 1 && (
+                  <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-50 p-4 border-t border-gray-100 gap-4 text-xs font-bold text-gray-500">
+                    <div>
+                      Showing <span className="text-gray-900">{(cityCurrentPage - 1) * citiesPerPage + 1}</span> to <span className="text-gray-900">{Math.min(cityCurrentPage * citiesPerPage, filteredCities.length)}</span> of <span className="text-gray-900">{filteredCities.length}</span> entries
+                    </div>
+                    <div className="flex items-center space-x-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setCityCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={cityCurrentPage === 1}
+                        className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-700"
+                      >
+                        Previous
+                      </button>
+                      
+                      {Array.from({ length: Math.min(5, cityTotalPages) }, (_, idx) => {
+                        let pageNum = cityCurrentPage;
+                        if (cityCurrentPage <= 3) {
+                          pageNum = idx + 1;
+                        } else if (cityCurrentPage >= cityTotalPages - 2) {
+                          pageNum = cityTotalPages - 4 + idx;
+                        } else {
+                          pageNum = cityCurrentPage - 2 + idx;
+                        }
+                        
+                        if (pageNum < 1 || pageNum > cityTotalPages) return null;
+
+                        return (
+                          <button
+                            key={pageNum}
+                            type="button"
+                            onClick={() => setCityCurrentPage(pageNum)}
+                            className={`px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                              cityCurrentPage === pageNum
+                                ? 'bg-red-600 border-red-650 text-white shadow-md shadow-red-600/10'
+                                : 'bg-white border-gray-200 text-gray-750 hover:bg-gray-50'
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      })}
+
+                      <button
+                        type="button"
+                        onClick={() => setCityCurrentPage(prev => Math.min(prev + 1, cityTotalPages))}
+                        disabled={cityCurrentPage === cityTotalPages}
+                        className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-700"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           ) : (

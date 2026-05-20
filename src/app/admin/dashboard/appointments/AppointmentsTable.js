@@ -8,6 +8,10 @@ export default function AppointmentsTable({ initialAppointments }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
 
   // Search filtering logic
   const filteredAppointments = appointments.filter((appt) => {
@@ -21,6 +25,12 @@ export default function AppointmentsTable({ initialAppointments }) {
       appt.moveSize.toLowerCase().includes(query)
     );
   });
+
+  const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
+  const paginatedAppointments = filteredAppointments.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
@@ -83,7 +93,10 @@ export default function AppointmentsTable({ initialAppointments }) {
           type="text"
           placeholder="Search bookings by name, route, move size..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
           className="w-full bg-gray-55 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2.5 pl-11 pr-4 rounded-xl focus:outline-none transition-all font-semibold"
         />
       </div>
@@ -107,7 +120,7 @@ export default function AppointmentsTable({ initialAppointments }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredAppointments.map((appt) => (
+              {paginatedAppointments.map((appt) => (
                 <tr key={appt.id} className="hover:bg-gray-55/30 transition-colors">
                   <td className="py-4 px-4 font-bold text-gray-900">
                     <span className="block leading-snug">{appt.fullName}</span>
@@ -157,6 +170,62 @@ export default function AppointmentsTable({ initialAppointments }) {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination Footer */}
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-50 p-4 border-t border-gray-100 gap-4 text-xs font-bold text-gray-500">
+              <div>
+                Showing <span className="text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="text-gray-900">{Math.min(currentPage * itemsPerPage, filteredAppointments.length)}</span> of <span className="text-gray-900">{filteredAppointments.length}</span> entries
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-750"
+                >
+                  Previous
+                </button>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, idx) => {
+                  let pageNum = currentPage;
+                  if (currentPage <= 3) {
+                    pageNum = idx + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + idx;
+                  } else {
+                    pageNum = currentPage - 2 + idx;
+                  }
+                  
+                  if (pageNum < 1 || pageNum > totalPages) return null;
+
+                  return (
+                    <button
+                      key={pageNum}
+                      type="button"
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                        currentPage === pageNum
+                          ? 'bg-red-600 border-red-650 text-white shadow-md shadow-red-600/10'
+                          : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-750"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

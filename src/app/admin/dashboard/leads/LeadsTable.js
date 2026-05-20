@@ -7,6 +7,10 @@ export default function LeadsTable({ initialLeads }) {
   const [leads, setLeads] = useState(initialLeads);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState(null);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
 
   // Search filtering logic
   const filteredLeads = leads.filter((lead) => {
@@ -19,6 +23,12 @@ export default function LeadsTable({ initialLeads }) {
       lead.phone.includes(query)
     );
   });
+
+  const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+  const paginatedLeads = filteredLeads.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
@@ -40,8 +50,11 @@ export default function LeadsTable({ initialLeads }) {
           type="text"
           placeholder="Search leads by name, email, route cities..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-gray-50 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2.5 pl-11 pr-4 rounded-xl focus:outline-none transition-all font-semibold"
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="w-full bg-gray-55 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2.5 pl-11 pr-4 rounded-xl focus:outline-none transition-all font-semibold"
         />
       </div>
 
@@ -63,11 +76,11 @@ export default function LeadsTable({ initialLeads }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredLeads.map((lead) => (
+              {paginatedLeads.map((lead) => (
                 <tr key={lead.id} className="hover:bg-gray-55/30 transition-colors">
                   <td className="py-4 px-4 font-bold text-gray-900">
                     <span className="block leading-snug">{lead.fullName}</span>
-                    <span className="block text-[11px] text-gray-400 font-bold tracking-wide uppercase mt-0.5">
+                    <span className="block text-[11px] text-gray-450 font-bold tracking-wide uppercase mt-0.5">
                       Lead #{lead.id}
                     </span>
                   </td>
@@ -99,7 +112,7 @@ export default function LeadsTable({ initialLeads }) {
                     <button
                       onClick={() => setSelectedLead(lead)}
                       type="button"
-                      className="bg-red-50 hover:bg-red-600 text-red-600 hover:text-white py-1.5 px-4 rounded-full font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                      className="bg-red-50 hover:bg-red-600 text-red-650 hover:text-white py-1.5 px-4 rounded-full font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
                     >
                       Inspect
                     </button>
@@ -108,6 +121,62 @@ export default function LeadsTable({ initialLeads }) {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination Footer */}
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-50 p-4 border-t border-gray-100 gap-4 text-xs font-bold text-gray-500">
+              <div>
+                Showing <span className="text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="text-gray-900">{Math.min(currentPage * itemsPerPage, filteredLeads.length)}</span> of <span className="text-gray-900">{filteredLeads.length}</span> entries
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-750"
+                >
+                  Previous
+                </button>
+                
+                {Array.from({ length: Math.min(5, totalPages) }, (_, idx) => {
+                  let pageNum = currentPage;
+                  if (currentPage <= 3) {
+                    pageNum = idx + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + idx;
+                  } else {
+                    pageNum = currentPage - 2 + idx;
+                  }
+                  
+                  if (pageNum < 1 || pageNum > totalPages) return null;
+
+                  return (
+                    <button
+                      key={pageNum}
+                      type="button"
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                        currentPage === pageNum
+                          ? 'bg-red-600 border-red-650 text-white shadow-md shadow-red-600/10'
+                          : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-all cursor-pointer text-gray-750"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
