@@ -3,6 +3,7 @@ import { getPageMetadata } from '@/lib/seo';
 import HeadScript from '@/components/Seo/HeadScript';
 import LocationExplorer from '@/components/LocationExplorer';
 import { MapPin, Phone } from 'lucide-react';
+import { ABOUT } from '@/lib/constant';
 
 export async function generateMetadata() {
   const seoData = await getPageMetadata('/locations');
@@ -74,11 +75,11 @@ export default async function LocationsPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto relative z-10 shrink-0">
               <a 
-                href="tel:18005550199" 
+                href={`tel:${ABOUT[0].phone[0]}`} 
                 className="bg-gray-805 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl border border-gray-700 transition-colors text-sm flex items-center justify-center gap-2"
               >
                 <Phone className="h-4 w-4 text-red-500" />
-                <span>1-800-555-0199</span>
+                <span>{ABOUT[0].phone[0]}</span>
               </a>
               <Link 
                 href="/book-appointment" 
