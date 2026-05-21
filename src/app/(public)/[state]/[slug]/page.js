@@ -26,6 +26,7 @@ import { getPageMetadata } from '@/lib/seo';
 import HeadScript from '@/components/Seo/HeadScript';
 import FAQschema from '@/components/Seo/FAQschema';
 import FAQAccordion from '../../blog/[slug]/FAQAccordion';
+import {ABOUT} from '@/lib/constant';
 
 export async function generateMetadata({ params }) {
   const { state, slug } = await params;
@@ -260,11 +261,11 @@ async function ServiceInLocationPage({ service, location, junction, seoData }) {
                   </Link>
 
                   <a 
-                    href="tel:18005550199" 
+                    href={`tel:${ABOUT[0].phone[0]}`} 
                     className="w-full bg-gray-850 hover:bg-gray-800 border border-gray-700 text-white font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
                   >
                     <Phone size={14} className="text-red-500" />
-                    <span>Call 1-800-555-0199</span>
+                    <span>Call {ABOUT[0].phone[0]}</span>
                   </a>
                 </div>
 
@@ -275,7 +276,7 @@ async function ServiceInLocationPage({ service, location, junction, seoData }) {
                   </li>
                   <li className="flex items-center gap-2">
                     <Mail size={13} className="text-red-500" />
-                    <span>info@galaxymovers.ca</span>
+                    <span>{ABOUT[0].email[0]}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <MapPin size={13} className="text-red-500" />
