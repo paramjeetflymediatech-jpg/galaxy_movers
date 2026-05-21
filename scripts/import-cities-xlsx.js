@@ -43,6 +43,7 @@ async function main() {
     // Cache to avoid querying the database repeatedly for same states/districts
     const stateCache = {}; // name -> state object
     const districtCache = {}; // stateId_name -> district object
+    const stateDistrictMap = {}; // stateId -> first district object
     const citySet = new Set(); // stateId_cityName -> true
 
     // Load existing database data to populate caches
@@ -54,6 +55,9 @@ async function main() {
     const existingDistricts = await District.findAll();
     existingDistricts.forEach(d => {
       districtCache[`${d.state_id}_${d.name.toLowerCase()}`] = d;
+      if (!stateDistrictMap[d.state_id]) {
+        stateDistrictMap[d.state_id] = d;
+      }
     });
 
     const existingLocations = await Location.findAll();
@@ -107,11 +111,12 @@ async function main() {
       }
 
       // 3. Ensure a District exists for this city.
-      // Since Excel lacks a district column, we use "[State Name] Region" as the default district.
-      const defaultDistrictName = `${state.name} Region`;
-      const districtCacheKey = `${state.id}_${defaultDistrictName.toLowerCase()}`;
-      let district = districtCache[districtCacheKey];
+      // If a district already exists for this state, use it. Otherwise, create a default "[State Name] Region".
+      let district = stateDistrictMap[state.id];
       if (!district) {
+        const defaultDistrictName = `${state.name} Region`;
+        const districtCacheKey = `${state.id}_${defaultDistrictName.toLowerCase()}`;
+        
         // Double check in DB just in case cache missed
         const [d, created] = await District.findOrCreate({
           where: { state_id: state.id, name: defaultDistrictName },
@@ -119,6 +124,7 @@ async function main() {
         });
         district = d;
         districtCache[districtCacheKey] = district;
+        stateDistrictMap[state.id] = district;
         if (created) {
           addedDistrictsCount++;
           console.log(`  + Created District: ${defaultDistrictName}`);
