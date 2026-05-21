@@ -162,17 +162,7 @@ async function main() {
     }
   ];
 
-  for (const seoItem of initialSeo) {
-    const [record, created] = await Seo.findOrCreate({
-      where: { page_path: seoItem.page_path },
-      defaults: seoItem
-    });
-    if (created) {
-      console.log(`Seeded SEO metadata for path: ${seoItem.page_path}`);
-    } else {
-      console.log(`SEO metadata for ${seoItem.page_path} already exists.`);
-    }
-  }
+
 
   // Seed sample Blogs if none exist
   const existingBlogs = await Blog.count();
