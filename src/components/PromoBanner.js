@@ -12,7 +12,7 @@ export default function PromoBanner() {
         {/* Shimmer Badge */}
         <div className="inline-flex items-center space-x-2 bg-red-600/10 border border-red-500/30 rounded-full px-4.5 py-2 text-red-400 font-extrabold text-xs uppercase tracking-wider mx-auto shadow-inner shadow-red-500/5">
           <Zap className="h-4 w-4 fill-red-400 animate-pulse mr-1" />
-          <span>⚡ Limited Time Offer - Book Now & Save 15%</span>
+          <span>⚡ Limited Time Offer - Book Now </span>
         </div>
 
         {/* Heading */}
@@ -22,7 +22,7 @@ export default function PromoBanner() {
 
         {/* Description */}
         <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto font-medium leading-relaxed">
-          Book your moving appointment online today and experience stress-free moving with Canada\'s most trusted professionals. Secure packing, modern fleets, and guaranteed flat rates.
+          Book your moving appointment online today and experience stress-free moving with Canada's most trusted professionals. Secure packing, modern fleets, and guaranteed flat rates.
         </p>
 
         {/* Perks Checklist */}

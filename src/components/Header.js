@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Truck, Menu, X, PhoneCall } from 'lucide-react';
-
+import { ABOUT } from '@/lib/constant';
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,8 +57,8 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="bg-red-600 text-white p-2 rounded-lg transition-transform group-hover:scale-105 duration-200">
-              <Truck className="h-6 w-6" />
+            <div className=" text-white p-2 rounded-lg transition-transform group-hover:scale-105 duration-200">
+              <img src="logo.png"  className='w-24'/>
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight text-gray-900 leading-none">
@@ -90,11 +90,11 @@ export default function Header() {
           {/* Desktop Call & CTA */}
           <div className="hidden md:flex items-center space-x-6">
             <a
-              href="tel:18005551234"
+              href={`tel:${ABOUT[0].phone[0]}` || "(800) 555-1234"}
               className="flex items-center text-sm font-bold text-gray-700 hover:text-red-600 transition-colors"
             >
               <PhoneCall className="h-4 w-4 mr-2 text-red-600 animate-pulse" />
-              <span>(800) 555-1234</span>
+              <span>{ABOUT[0].phone[0] || "(800) 555-1234"}</span>
             </a>
 
             <Link

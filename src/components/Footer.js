@@ -1,34 +1,43 @@
-import Link from 'next/link';
-import { Truck, Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin, Clock } from 'lucide-react';
-
+import Link from "next/link";
+import {
+  Truck,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+} from "lucide-react";
+import { ABOUT } from "@/lib/constant";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const services = [
-    { name: 'Residential Moving', href: '/#services' },
-    { name: 'Commercial & Office Moves', href: '/#services' },
-    { name: 'Long Distance Moving', href: '/#services' },
-    { name: 'Professional Packing', href: '/#services' },
-    { name: 'Furniture Assembly', href: '/#services' },
-    { name: 'Secure Storage Solutions', href: '/#services' }
+    { name: "Residential Moving", href: "/#services" },
+    { name: "Commercial & Office Moves", href: "/#services" },
+    { name: "Long Distance Moving", href: "/#services" },
+    { name: "Professional Packing", href: "/#services" },
+    { name: "Furniture Assembly", href: "/#services" },
+    { name: "Secure Storage Solutions", href: "/#services" },
   ];
 
   const quickLinks = [
-    { name: 'About Our Company', href: '/about' },
-    { name: 'Book Appointment', href: '/book-appointment' },
-    { name: 'Our Blog & Tips', href: '/blog' }
+    { name: "About Our Company", href: "/about" },
+    { name: "Book Appointment", href: "/book-appointment" },
+    { name: "Our Blog & Tips", href: "/blog" },
   ];
 
-
   const cities = [
-    { name: 'Vancouver, BC', href: '/locations' },
-    { name: 'Toronto, ON', href: '/locations' },
-    { name: 'Calgary, AB', href: '/locations' },
-    { name: 'Montreal, QC', href: '/locations' },
-    { name: 'Edmonton, AB', href: '/locations' },
-    { name: 'Ottawa, ON', href: '/locations' },
-    { name: 'Winnipeg, MB', href: '/locations' },
-    { name: 'Quebec City, QC', href: '/locations' }
+    { name: "Vancouver, BC", href: "/locations" },
+    { name: "Toronto, ON", href: "/locations" },
+    { name: "Calgary, AB", href: "/locations" },
+    { name: "Montreal, QC", href: "/locations" },
+    { name: "Edmonton, AB", href: "/locations" },
+    { name: "Ottawa, ON", href: "/locations" },
+    { name: "Winnipeg, MB", href: "/locations" },
+    { name: "Quebec City, QC", href: "/locations" },
   ];
 
   return (
@@ -51,19 +60,33 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
-              Canada's most trusted moving company. Providing professional packing, local, and long-distance moving services coast to coast. Stress-free solutions guaranteed.
+              Canada's most trusted moving company. Providing professional
+              packing, local, and long-distance moving services coast to coast.
+              Stress-free solutions guaranteed.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80">
+              <a
+                href="#"
+                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
+              >
                 <Facebook className="h-4 w-4" />
               </a>
-              <a href="#" className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80">
+              <a
+                href="#"
+                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
+              >
                 <Twitter className="h-4 w-4" />
               </a>
-              <a href="#" className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80">
+              <a
+                href="#"
+                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
+              >
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="#" className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80">
+              <a
+                href="#"
+                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
+              >
                 <Linkedin className="h-4 w-4" />
               </a>
             </div>
@@ -77,7 +100,10 @@ export default function Footer() {
             <ul className="space-y-3.5 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
+                  <Link
+                    href={link.href}
+                    className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -108,33 +134,73 @@ export default function Footer() {
               <li className="flex items-start">
                 <Phone className="h-5 w-5 mr-3 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 font-semibold uppercase">Emergency Moving Support</span>
-                  <a href="tel:18005551234" className="text-white font-bold hover:text-red-500 transition-colors">
-                    (800) 555-1234
-                  </a>
+                  <span className="text-xs text-gray-500 font-semibold uppercase">
+                    Emergency Moving Support
+                  </span>
+                  <div className="flex py-2 gap-4 ">
+                    <a
+                      href={`tel:${ABOUT[0].phone[0]}` || "(800) 555-1234"}
+                      className="text-white font-bold hover:text-red-500 transition-colors"
+                    >
+                      {ABOUT[0].phone[0] || "(800) 555-1234"}
+                    </a>
+                    <a
+                      href={`tel:${ABOUT[0].phone[1]}` || "(800) 555-1234"}
+                      className="text-white font-bold hover:text-red-500 transition-colors"
+                    >
+                      {ABOUT[0].phone[1] || "(800) 555-1234"}
+                    </a>
+                  </div>
                 </div>
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 mr-3 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 font-semibold uppercase">Email Queries</span>
-                  <a href="mailto:info@galaxymovers.ca" className="text-white font-semibold hover:text-red-500 transition-colors">
-                    info@galaxymovers.ca
+                  <span className="text-xs text-gray-500 font-semibold uppercase">
+                    Email Queries
+                  </span>
+                  <a
+                    href={
+                      `mailto:${ABOUT[0].email[0]}` || "info@galaxymovers.ca"
+                    }
+                    className="text-white font-semibold hover:text-red-500 transition-colors"
+                  >
+                    {ABOUT[0].email[0]}
+                  </a>
+                  <a
+                    href={
+                      `mailto:${ABOUT[0].email[1]}` || "info@galaxymovers.ca"
+                    }
+                    className="text-white font-semibold hover:text-red-500 transition-colors"
+                  >
+                    {ABOUT[0].email[1]}
                   </a>
                 </div>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-3 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 font-semibold uppercase">HQ Locations</span>
-                  <span className="text-white font-medium">Multiple Stations Across Canada</span>
+                  <span className="text-xs text-gray-500 font-semibold uppercase">
+                    HQ Locations
+                  </span>
+                  <a
+                  target="_blank"
+                    href={ABOUT[0].mapLink}
+                    className="text-white font-semibold hover:text-red-500 transition-colors"
+                  >
+                    {ABOUT[0].address}
+                  </a>
                 </div>
               </li>
               <li className="flex items-start">
                 <Clock className="h-5 w-5 mr-3 text-red-500 shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 font-semibold uppercase">Availability</span>
-                  <span className="text-white font-medium">24/7 Direct Call Support</span>
+                  <span className="text-xs text-gray-500 font-semibold uppercase">
+                    Availability
+                  </span>
+                  <span className="text-white font-medium">
+                    24/7 Direct Call Support
+                  </span>
                 </div>
               </li>
             </ul>
@@ -143,12 +209,17 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm">
-          <p>
-            &copy; {currentYear} Galaxy Movers Canada. All rights reserved.
-          </p>
+          <p>&copy; {currentYear} Galaxy Movers Canada. All rights reserved.</p>
           <div className="flex space-x-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link
+              href="/privacy"
+              className="hover:text-white transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

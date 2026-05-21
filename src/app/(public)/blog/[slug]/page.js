@@ -165,7 +165,7 @@ export default async function BlogDetail({ params }) {
               Planning a Move?
             </h3>
             <p className="text-sm text-gray-500 font-semibold leading-relaxed">
-              Secure your premium moving date online today and save 15%.
+              Secure your premium moving date online today.
             </p>
           </div>
           <Link 

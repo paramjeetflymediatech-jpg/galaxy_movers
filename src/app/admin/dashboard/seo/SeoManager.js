@@ -191,7 +191,7 @@ export default function SeoManager({ initialRecords }) {
                   required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Galaxy Movers | Canada\'s Moving Specialists"
+                  placeholder="Galaxy Movers | Canada's Moving Specialists"
                   className="w-full bg-gray-50 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2.5 px-4 rounded-lg focus:outline-none transition-all font-semibold text-gray-800"
                 />
               </div>

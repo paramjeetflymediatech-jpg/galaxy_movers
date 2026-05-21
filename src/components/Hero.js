@@ -1,5 +1,6 @@
 import { ArrowRight, Phone, ShieldCheck, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { ABOUT } from '@/lib/constant';
 
 export default function Hero() {
   return (
@@ -16,7 +17,7 @@ export default function Hero() {
             {/* Top Tagline Badge */}
             <div className="inline-flex items-center space-x-2 bg-red-600/10 border border-red-500/20 rounded-full px-4 py-1.5 text-red-400 font-bold text-xs uppercase tracking-wider mx-auto lg:mx-0">
               <Zap className="h-3.5 w-3.5 fill-red-400" />
-              <span>⚡ Canada\'s #1 Relocation Specialists</span>
+              <span>⚡ Canada's #1 Relocation Specialists</span>
             </div>
 
             {/* Main Headline */}
@@ -43,11 +44,11 @@ export default function Hero() {
               </Link>
 
               <a
-                href="tel:18005551234"
+                href={`tel:${ABOUT[0].phone[0]}` || "(800) 555-1234"}
                 className="w-full sm:w-auto bg-white/10 hover:bg-white/15 text-white font-semibold py-3.5 px-8 rounded-lg border border-white/20 transition-all duration-200 flex items-center justify-center hover:border-white/40 cursor-pointer text-base"
               >
                 <Phone className="h-5 w-5 mr-2.5 text-red-500" />
-                <span>Call (800) 555-1234</span>
+                <span>Call {ABOUT[0].phone[0] || "(800) 555-1234"}</span>
               </a>
             </div>
 
@@ -92,12 +93,12 @@ export default function Hero() {
             </div>
 
             {/* Absolute Badges for depth */}
-            <div className="absolute -top-6 -left-6 bg-red-600 text-white py-4 px-6 rounded-xl shadow-xl hover:-translate-y-1 transition-transform duration-300">
+            {/* <div className="absolute -top-6 -left-6 bg-red-600 text-white py-4 px-6 rounded-xl shadow-xl hover:-translate-y-1 transition-transform duration-300">
               <span className="block text-2xl font-black">15% OFF</span>
               <span className="block text-[10px] font-bold uppercase tracking-wider text-red-200">
                 Book This Week
               </span>
-            </div>
+            </div> */}
 
             <div className="absolute -bottom-6 -right-6 bg-white text-gray-900 py-3.5 px-5 rounded-xl shadow-xl flex items-center space-x-3">
               <div className="bg-green-100 p-2 rounded-full text-green-600">

@@ -86,12 +86,12 @@ async function main() {
     },
     {
       page_path: '/about',
-      title: 'About Galaxy Movers | Canada\'s Trusted Moving Experts',
+      title: "About Galaxy Movers | Canada's Trusted Moving Experts",
       description: 'Learn about Galaxy Movers Canada, our professional background, state-of-the-art trucks, and commitment to stress-free relocation services across Canada.',
       keywords: 'about galaxy movers, professional movers, moving company history, Canadian movers',
       canonical_url: 'https://galaxymovers.ca/about',
       og_title: 'About Us | Galaxy Movers Canada',
-      og_description: 'Discover the story, mission, and professional credentials behind Canada\'s top relocation specialists.'
+      og_description: "Discover the story, mission, and professional credentials behind Canada's top relocation specialists."
     },
     {
       page_path: '/book-appointment',
