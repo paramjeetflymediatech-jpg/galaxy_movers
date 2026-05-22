@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { getPageMetadata } from "@/lib/seo";
+import { getPageMetadata,parseScriptTags } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,8 +34,38 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" className="scroll-smooth h-full" suppressHydrationWarning>
-      <head dangerouslySetInnerHTML={{ __html: seoData?.header_scripts}} >
+      <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Dynamic Server-Side Header Script Injection */}
+        {seoData?.header_scripts && (
+          parseScriptTags(seoData.header_scripts).map((tag, index) => (
+            tag.tagName === 'script' && (
+              <script
+                key={index}
+                {...tag.attrs}
+                dangerouslySetInnerHTML={{ __html: tag.content }}
+              />
+            )||tag.tagName === 'noscript' && (
+              <noscript
+                key={index}
+                {...tag.attrs}
+                dangerouslySetInnerHTML={{ __html: tag.content }}
+              />
+            )||tag.tagName === 'meta' && (
+              <meta
+                key={index}
+                {...tag.attrs}
+                dangerouslySetInnerHTML={{ __html: tag.content }}
+              />
+            )||tag.tagName === 'link' && (
+              <link
+                key={index}
+                {...tag.attrs}
+                dangerouslySetInnerHTML={{ __html: tag.content }}
+              />
+            ) 
+          ))
+        )}
       </head>
       <body className={`${inter.variable} min-h-full flex flex-col antialiased bg-white text-gray-900`} suppressHydrationWarning>
         <main className="flex-grow flex flex-col">
