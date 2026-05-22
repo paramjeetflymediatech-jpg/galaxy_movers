@@ -34,7 +34,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" className="scroll-smooth h-full" suppressHydrationWarning>
-      <head dangerouslySetInnerHTML={{ __html: seoData?.header_scripts || '' }} >
+      <head dangerouslySetInnerHTML={{ __html: seoData?.header_scripts}} >
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.variable} min-h-full flex flex-col antialiased bg-white text-gray-900`} suppressHydrationWarning>
