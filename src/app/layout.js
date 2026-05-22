@@ -34,13 +34,8 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" className="scroll-smooth h-full" suppressHydrationWarning>
-      <head>
+      <head dangerouslySetInnerHTML={{ __html: seoData?.header_scripts || '' }} >
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Dynamic Server-Side Header Script Injection */}
-        {seoData?.header_scripts && (
-          // <script dangerouslySetInnerHTML={{ __html: seoData.header_scripts.replace(/<script[^>]*>|<\/script>/g, '') }} />
-          <script dangerouslySetInnerHTML={{ __html: seoData.header_scripts }} />
-        )}
       </head>
       <body className={`${inter.variable} min-h-full flex flex-col antialiased bg-white text-gray-900`} suppressHydrationWarning>
         <main className="flex-grow flex flex-col">
