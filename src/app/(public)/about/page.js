@@ -5,6 +5,7 @@ import { ShieldCheck, Truck, Clock, Award, Users, HeartHandshake, MapPin } from 
 
 export async function generateMetadata() {
   const seoData = await getPageMetadata('/about');
+  console.log(seoData,'seodaat');
   if (!seoData) return { title: 'About Us | Galaxy Movers Canada' };
 
   return {
