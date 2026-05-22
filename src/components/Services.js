@@ -138,7 +138,7 @@ export default async function Services() {
 
               <div className="pt-6 mt-6 border-t border-gray-50">
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={"#"}
                   className="text-red-600 hover:text-red-700 font-bold text-xs uppercase tracking-wider flex items-center"
                 >
                   <span>Learn More</span>
