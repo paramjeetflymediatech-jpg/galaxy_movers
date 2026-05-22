@@ -38,7 +38,8 @@ export default async function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* Dynamic Server-Side Header Script Injection */}
         {seoData?.header_scripts && (
-          <script dangerouslySetInnerHTML={{ __html: seoData.header_scripts.replace(/<script[^>]*>|<\/script>/g, '') }} />
+          // <script dangerouslySetInnerHTML={{ __html: seoData.header_scripts.replace(/<script[^>]*>|<\/script>/g, '') }} />
+          <script dangerouslySetInnerHTML={{ __html: seoData.header_scripts }} />
         )}
       </head>
       <body className={`${inter.variable} min-h-full flex flex-col antialiased bg-white text-gray-900`} suppressHydrationWarning>
