@@ -143,11 +143,11 @@ export default function Header() {
           ))}
           <div className="pt-4 border-t border-gray-100 space-y-3">
             <a
-              href="tel:18005551234"
+              href={`tel:${ABOUT[0].phone[0]}`}
               className="flex items-center px-3 py-2 text-base font-bold text-gray-700 hover:text-red-600 transition-colors"
             >
               <PhoneCall className="h-5 w-5 mr-3 text-red-600" />
-              <span>(800) 555-1234</span>
+              <span>{ABOUT[0].phone[0]}</span>
             </a>
 
             <Link

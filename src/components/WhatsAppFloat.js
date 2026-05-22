@@ -29,7 +29,7 @@ export default function WhatsAppFloat() {
     <>
       {/* WhatsApp Float Button (Bottom-Left) */}
       <a
-        href="https://wa.me/18005551234"
+        href={`https://wa.me/${ABOUT[0].phone[0].replace(/\D/g, '')}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 z-40 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200 group flex items-center justify-center cursor-pointer"

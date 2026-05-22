@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ShieldCheck, Eye, Lock, FileText, ArrowLeft } from 'lucide-react';
 import { getPageMetadata } from '@/lib/seo';
 import HeadScript from '@/components/Seo/HeadScript';
+import { ABOUT } from '@/lib/constant';
 
 export async function generateMetadata() {
   const seoData = await getPageMetadata('/privacy');
@@ -115,8 +116,8 @@ export default async function PrivacyPage() {
           </p>
           <p className="bg-gray-50 border border-gray-150 p-6 rounded-2xl font-bold text-gray-700 leading-relaxed text-xs">
             Galaxy Movers Data Officer<br/>
-            Email: <a href="mailto:privacy@galaxymovers.ca" className="text-red-650 hover:underline">privacy@galaxymovers.ca</a><br/>
-            Phone: (800) 555-1234
+            Email: <a href={`mailto:${ABOUT[0].email[0]}`} className="text-red-650 hover:underline">{ABOUT[0].email[0]}</a><br/>
+            Phone: {ABOUT[0].phone[0]}
           </p>
 
         </div>
