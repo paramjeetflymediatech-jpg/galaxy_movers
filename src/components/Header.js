@@ -58,7 +58,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <div className=" text-white p-2 rounded-lg transition-transform group-hover:scale-105 duration-200">
-              <img src="logo.png"  className='w-24'/>
+              <img src="/logo.png"  className='w-24'/>
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight text-gray-900 leading-none">
