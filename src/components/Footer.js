@@ -10,7 +10,7 @@ import {
   MapPin,
   Clock,
 } from "lucide-react";
-import { ABOUT } from "@/lib/constant";
+import { ABOUT,SOCIAL_LINKS } from "@/lib/constant";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -65,30 +65,15 @@ export default function Footer() {
               Stress-free solutions guaranteed.
             </p>
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
-              >
-                <Linkedin className="h-4 w-4" />
-              </a>
+              {SOCIAL_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="hover:text-red-500 transition-colors p-2 bg-gray-800 rounded-lg hover:bg-gray-800/80"
+                >
+                  <link.icon className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
 
