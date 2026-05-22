@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { MessageSquare, ArrowUp } from 'lucide-react';
-
+import { ABOUT } from '@/lib/constant';
 export default function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(false);
 
