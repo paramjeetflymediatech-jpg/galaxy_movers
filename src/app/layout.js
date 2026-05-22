@@ -55,13 +55,11 @@ export default async function RootLayout({ children }) {
               <meta
                 key={index}
                 {...tag.attrs}
-                dangerouslySetInnerHTML={{ __html: tag.content }}
               />
             )||tag.tagName === 'link' && (
               <link
                 key={index}
                 {...tag.attrs}
-                dangerouslySetInnerHTML={{ __html: tag.content }}
               />
             ) 
           ))
