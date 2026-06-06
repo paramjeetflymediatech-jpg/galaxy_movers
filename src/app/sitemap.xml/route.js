@@ -44,7 +44,7 @@ export async function GET() {
   } catch (err) {
     console.error('Error fetching locations for sitemap:', err);
   }
-
+console.log(locations.length,'megth')
   // Format date to ISO string
   const formatDate = (date) => {
     return (date ? new Date(date) : new Date()).toISOString();
