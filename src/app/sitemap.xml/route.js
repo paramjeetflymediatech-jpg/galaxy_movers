@@ -37,15 +37,15 @@ export async function GET() {
   }
 
   // 3. Fetch Cities/Locations from the Database
-  let locations = [];
-  try {
-    locations = await Location.findAll({
-      include: [{ model: State, attributes: ['slug'] }],
-      attributes: ['slug', 'updatedAt'],
-    });
-  } catch (err) {
-    console.error('Error fetching locations for sitemap:', err);
-  }
+  // let locations = [];
+  // try {
+  //   locations = await Location.findAll({
+  //     include: [{ model: State, attributes: ['slug'] }],
+  //     attributes: ['slug', 'updatedAt'],
+  //   });
+  // } catch (err) {
+  //   console.error('Error fetching locations for sitemap:', err);
+  // }
 
   // 4. Fetch location services from the Database
   let locationServices = [];
@@ -102,17 +102,17 @@ export async function GET() {
   });
 
   // Add location pages (excluding service pages)
-  locations
-    .forEach((loc) => {
-      if (loc.State?.slug) {
-        xml += `  <url>\n`;
-        xml += `    <loc>${BASE_URL}/${loc.State.slug}/${loc.slug}</loc>\n`;
-        xml += `    <lastmod>${formatDate(loc.updatedAt)}</lastmod>\n`;
-        xml += `    <changefreq>weekly</changefreq>\n`;
-        xml += `    <priority>0.7</priority>\n`;
-        xml += `  </url>\n`;
-      }
-    });
+  // locations
+  //   .forEach((loc) => {
+  //     if (loc.State?.slug) {
+  //       xml += `  <url>\n`;
+  //       xml += `    <loc>${BASE_URL}/${loc.State.slug}/${loc.slug}</loc>\n`;
+  //       xml += `    <lastmod>${formatDate(loc.updatedAt)}</lastmod>\n`;
+  //       xml += `    <changefreq>weekly</changefreq>\n`;
+  //       xml += `    <priority>0.7</priority>\n`;
+  //       xml += `  </url>\n`;
+  //     }
+  //   });
 
   // Add location services pages
   locationServices.forEach((ls) => {
