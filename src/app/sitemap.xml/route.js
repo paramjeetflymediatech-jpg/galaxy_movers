@@ -1,6 +1,8 @@
 import { headers } from 'next/headers';
 import Blog from '@/models/Blog';
 import Location from '@/models/Location';
+import ServiceLocation from '@/models/ServiceLocation';
+import Service from '@/models/Service';
 import State from '@/models/State';
 
 export const dynamic = 'force-dynamic';
@@ -44,7 +46,32 @@ export async function GET() {
   } catch (err) {
     console.error('Error fetching locations for sitemap:', err);
   }
-console.log(locations.length,'megth')
+
+  // 4. Fetch location services from the Database
+  let locationServices = [];
+  try {
+    locationServices = await ServiceLocation.findAll({
+      include: [
+        {
+          model: Location,
+          attributes: ['slug'],
+          include: [
+            {
+              model: State,
+              attributes: ['slug']
+            }
+          ]
+        },
+        {
+          model: Service,
+          attributes: ['slug']
+        }
+      ]
+    });
+  } catch (err) {
+    console.error('Error fetching location services for sitemap:', err);
+  }
+
   // Format date to ISO string
   const formatDate = (date) => {
     return (date ? new Date(date) : new Date()).toISOString();
@@ -76,15 +103,32 @@ console.log(locations.length,'megth')
 
   // Add location pages (excluding service pages)
   locations
-    .filter((loc) => loc.State !== null)
     .forEach((loc) => {
+      if (loc.State?.slug) {
+        xml += `  <url>\n`;
+        xml += `    <loc>${BASE_URL}/${loc.State.slug}/${loc.slug}</loc>\n`;
+        xml += `    <lastmod>${formatDate(loc.updatedAt)}</lastmod>\n`;
+        xml += `    <changefreq>weekly</changefreq>\n`;
+        xml += `    <priority>0.7</priority>\n`;
+        xml += `  </url>\n`;
+      }
+    });
+
+  // Add location services pages
+  locationServices.forEach((ls) => {
+    const stateSlug = ls.Location?.State?.slug;
+    const locSlug = ls.Location?.slug;
+    const svcSlug = ls.Service?.slug;
+    if (stateSlug && locSlug && svcSlug) {
       xml += `  <url>\n`;
-      xml += `    <loc>${BASE_URL}/${loc.State.slug}/${loc.slug}</loc>\n`;
-      xml += `    <lastmod>${formatDate(loc.updatedAt)}</lastmod>\n`;
+      xml += `    <loc>${BASE_URL}/${stateSlug}/${svcSlug}-in-${locSlug}</loc>\n`;
+      const lastMod = ls.updatedAt || ls.Service?.updatedAt || ls.Location?.updatedAt;
+      xml += `    <lastmod>${formatDate(lastMod)}</lastmod>\n`;
       xml += `    <changefreq>weekly</changefreq>\n`;
       xml += `    <priority>0.7</priority>\n`;
       xml += `  </url>\n`;
-    });
+    }
+  });
 
   xml += `</urlset>`;
 
