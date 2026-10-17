@@ -19,7 +19,7 @@ export async function GET(request) {
   }
 
   const openApiSpec = {
-    openapi: '3.1.0',
+    openapi: '3.0.1',
     info: {
       title: 'Galaxy Movers AI Gateway API',
       description:
@@ -39,6 +39,9 @@ export async function GET(request) {
     security: [
       {
         BearerAuth: [],
+      },
+      {
+        ApiKeyAuth: [],
       },
     ],
     paths: {
@@ -249,12 +252,13 @@ export async function GET(request) {
       '/v1/service-locations': {
         get: {
           summary: 'Get Service Location Landing Pages',
-          description: 'Retrieve localized city service landing pages (e.g. Residential Moving in Calgary) with custom description, content, and FAQs.',
+          description: 'Retrieve localized city service landing pages (e.g. Residential Moving in Calgary) with custom description, content, and FAQs. Supports filtering by path (e.g. /alberta/antique-and-art-movers-in-airdrie), composite slug, or service and location.',
           operationId: 'getServiceLocations',
           parameters: [
+            { name: 'path', in: 'query', schema: { type: 'string' }, description: 'Page path or URL (e.g. /alberta/antique-and-art-movers-in-airdrie)' },
+            { name: 'slug', in: 'query', schema: { type: 'string' }, description: 'Composite slug e.g. residential-moving-in-calgary' },
             { name: 'service', in: 'query', schema: { type: 'string' }, description: 'Service slug or name' },
             { name: 'location', in: 'query', schema: { type: 'string' }, description: 'City/Location slug or name' },
-            { name: 'slug', in: 'query', schema: { type: 'string' }, description: 'Composite slug e.g. residential-moving-in-calgary' },
           ],
           responses: {
             '200': { description: 'Service locations retrieved' },
@@ -262,7 +266,7 @@ export async function GET(request) {
         },
         post: {
           summary: 'Create or Update Service Location Landing Page',
-          description: 'Update unique localized HTML content, custom city description, FAQs, and optional SEO metadata for a specific city-service page (e.g. Residential Moving in Calgary).',
+          description: 'Updates an existing localized city-service page in-place without creating duplicates, or creates it if not found. Automatically syncs SEO metadata. Accepts path (e.g. /alberta/antique-and-art-movers-in-airdrie), url, slug, or service_slug and location_slug.',
           operationId: 'createOrUpdateServiceLocation',
           requestBody: {
             required: true,
@@ -274,6 +278,22 @@ export async function GET(request) {
           },
           responses: {
             '200': { description: 'Service location page saved and SEO synchronized' },
+          },
+        },
+        put: {
+          summary: 'Update Existing Service Location Landing Page',
+          description: 'Updates an existing localized city-service page in-place without creating duplicates. Alias to createOrUpdateServiceLocation.',
+          operationId: 'updateServiceLocation',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ServiceLocationCreateUpdateRequest' },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Service location page updated successfully' },
           },
         },
         delete: {
@@ -429,24 +449,34 @@ export async function GET(request) {
         ServiceLocationCreateUpdateRequest: {
           type: 'object',
           properties: {
+            path: {
+              type: 'string',
+              description: 'Page path (e.g. /alberta/antique-and-art-movers-in-airdrie) or full URL. The service and city will be automatically extracted.',
+              example: '/alberta/antique-and-art-movers-in-airdrie',
+            },
+            url: {
+              type: 'string',
+              description: 'Full page URL (e.g. https://galaxymoverscanada.com/alberta/antique-and-art-movers-in-airdrie).',
+              example: 'https://galaxymoverscanada.com/alberta/antique-and-art-movers-in-airdrie',
+            },
             service_slug: {
               type: 'string',
-              description: 'Base service slug (e.g. residential-moving, commercial-moving, long-distance-moving)',
-              example: 'residential-moving',
+              description: 'Base service slug (e.g. residential-moving, antique-and-art-movers)',
+              example: 'antique-and-art-movers',
             },
             location_slug: {
               type: 'string',
-              description: 'City/location slug (e.g. calgary, edmonton, red-deer)',
-              example: 'calgary',
+              description: 'City/location slug (e.g. calgary, airdrie, edmonton)',
+              example: 'airdrie',
             },
             slug: {
               type: 'string',
-              description: 'Alternative composite slug (e.g. residential-moving-in-calgary)',
+              description: 'Alternative composite slug (e.g. antique-and-art-movers-in-airdrie)',
             },
             description: {
               type: 'string',
               description: 'Unique localized HTML or text description specifically tailored for this city.',
-              example: 'Premier residential moving services in Calgary with transparent pricing and experienced local movers.',
+              example: 'Premier antique and art moving services in Airdrie with custom crating and white-glove delivery.',
             },
             content: {
               type: 'string',
@@ -477,6 +507,12 @@ export async function GET(request) {
           scheme: 'bearer',
           bearerFormat: 'API-Key',
           description: 'Enter your AI_GATEWAY_SECRET_KEY as Bearer Token',
+        },
+        ApiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'x-api-key',
+          description: 'Alternative header: x-api-key',
         },
       },
     },

@@ -106,6 +106,14 @@ export async function POST(request) {
   }
 }
 
+export async function PUT(request) {
+  return POST(request);
+}
+
+export async function PATCH(request) {
+  return POST(request);
+}
+
 export async function DELETE(request) {
   const auth = authenticateAiGateway(request);
   if (!auth.authenticated) return auth.response;

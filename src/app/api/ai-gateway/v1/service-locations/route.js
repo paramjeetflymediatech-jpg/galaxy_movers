@@ -16,6 +16,24 @@ function slugify(text) {
     .replace(/--+/g, '-');
 }
 
+function parseServiceAndLocation(input) {
+  if (!input || typeof input !== 'string') return { serviceSlug: null, locationSlug: null };
+  let str = input.trim();
+  str = str.replace(/^https?:\/\/[^\/]+/i, '');
+  str = str.split('?')[0].split('#')[0];
+  str = str.replace(/^\/+|\/+$/g, '');
+  const segments = str.split('/');
+  const target = segments[segments.length - 1] || '';
+  if (target.includes('-in-')) {
+    const parts = target.split('-in-');
+    return {
+      serviceSlug: parts[0],
+      locationSlug: parts.slice(1).join('-in-'),
+    };
+  }
+  return { serviceSlug: null, locationSlug: null };
+}
+
 export async function OPTIONS() {
   return handleOptions();
 }
@@ -28,15 +46,15 @@ export async function GET(request) {
     const url = new URL(request.url);
     const serviceQuery = url.searchParams.get('service') || url.searchParams.get('service_slug');
     const locationQuery = url.searchParams.get('location') || url.searchParams.get('city') || url.searchParams.get('location_slug');
-    const slugQuery = url.searchParams.get('slug'); // e.g. residential-moving-in-calgary
+    const slugQuery = url.searchParams.get('slug') || url.searchParams.get('path') || url.searchParams.get('url');
 
     let targetServiceSlug = serviceQuery ? slugify(serviceQuery) : null;
     let targetLocationSlug = locationQuery ? slugify(locationQuery) : null;
 
-    if (slugQuery && slugQuery.includes('-in-')) {
-      const parts = slugQuery.split('-in-');
-      targetServiceSlug = targetServiceSlug || parts[0];
-      targetLocationSlug = targetLocationSlug || parts.slice(1).join('-in-');
+    if (slugQuery) {
+      const parsed = parseServiceAndLocation(slugQuery);
+      if (parsed.serviceSlug) targetServiceSlug = targetServiceSlug || parsed.serviceSlug;
+      if (parsed.locationSlug) targetLocationSlug = targetLocationSlug || parsed.locationSlug;
     }
 
     const where = {};
@@ -95,6 +113,8 @@ export async function POST(request) {
   try {
     const body = await request.json();
     let {
+      path,
+      url: inputUrl,
       service,
       service_slug,
       service_name,
@@ -117,11 +137,11 @@ export async function POST(request) {
     let sSlug = service_slug || (service ? slugify(service) : null) || (service_name ? slugify(service_name) : null);
     let lSlug = location_slug || (location ? slugify(location) : null) || (city ? slugify(city) : null) || (location_name ? slugify(location_name) : null);
 
-    // If a composite slug like "residential-moving-in-calgary" was sent
-    if (slug && slug.includes('-in-')) {
-      const parts = slug.split('-in-');
-      sSlug = sSlug || parts[0];
-      lSlug = lSlug || parts.slice(1).join('-in-');
+    const compositeInput = slug || path || inputUrl;
+    if (compositeInput) {
+      const parsed = parseServiceAndLocation(compositeInput);
+      if (parsed.serviceSlug) sSlug = sSlug || parsed.serviceSlug;
+      if (parsed.locationSlug) lSlug = lSlug || parsed.locationSlug;
     }
 
     if (!sSlug || !lSlug) {
@@ -240,6 +260,14 @@ export async function POST(request) {
   }
 }
 
+export async function PUT(request) {
+  return POST(request);
+}
+
+export async function PATCH(request) {
+  return POST(request);
+}
+
 export async function DELETE(request) {
   const auth = authenticateAiGateway(request);
   if (!auth.authenticated) return auth.response;
@@ -247,12 +275,24 @@ export async function DELETE(request) {
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
+    const slugQuery = url.searchParams.get('slug') || url.searchParams.get('path');
 
-    if (!id) {
-      return jsonResponse({ success: false, error: 'id query param is required.' }, { status: 400 });
+    let junction = null;
+    if (id) {
+      junction = await ServiceLocation.findByPk(id);
+    } else if (slugQuery) {
+      const parsed = parseServiceAndLocation(slugQuery);
+      if (parsed.serviceSlug && parsed.locationSlug) {
+        const s = await Service.findOne({ where: { slug: parsed.serviceSlug } });
+        const l = await Location.findOne({ where: { slug: parsed.locationSlug } });
+        if (s && l) {
+          junction = await ServiceLocation.findOne({
+            where: { service_id: s.id, location_id: l.id },
+          });
+        }
+      }
     }
 
-    const junction = await ServiceLocation.findByPk(id);
     if (!junction) {
       return jsonResponse({ success: false, error: 'ServiceLocation record not found.' }, { status: 404 });
     }

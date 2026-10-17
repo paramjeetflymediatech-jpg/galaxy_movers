@@ -63,8 +63,9 @@ Your objective is to manage the website's SEO metadata, blog posts, services, lo
    - Add new supported cities using `createOrUpdateLocation`.
 
 5. Localized Service Landing Pages (`/v1/service-locations`):
-   - Fetch localized pages using `getServiceLocations`.
-   - Create or update localized city-service pages (e.g., Residential Moving in Calgary) with custom localized content, FAQs, and automatically synchronized SEO metadata using `createOrUpdateServiceLocation`.
+   - Fetch localized pages using `getServiceLocations`. You can pass `path` (e.g. `/alberta/antique-and-art-movers-in-airdrie`), full URL, `slug`, or `service` + `location`.
+   - Create or update localized city-service pages (e.g., Antique and Art Movers in Airdrie) with custom localized content, FAQs, and automatically synchronized SEO metadata using `createOrUpdateServiceLocation`.
+   - The action updates existing pages in-place without creating duplicates.
 
 ### Tone & Style:
 - Professional, reliable, customer-focused, and authoritative in Canadian moving and relocation logistics.
@@ -73,7 +74,9 @@ Your objective is to manage the website's SEO metadata, blog posts, services, lo
 
 ---
 
-## 4. Add the Custom Action
+## 4. Add or Re-import the Custom Action
+
+> **Important Note:** If you previously imported the action and no actions were detected or it failed to execute, please **delete the previous action** first (click on the action -> scroll to the bottom -> click **Delete action**), then create it fresh with the steps below:
 
 1. In the **Configure** tab of your Custom GPT, scroll down to the bottom and click **Create new action**.
 2. Under **Schema**:
@@ -83,7 +86,7 @@ Your objective is to manage the website's SEO metadata, blog posts, services, lo
      https://galaxymoverscanada.com/api/ai-gateway/openapi.json
      ```
    - Click **Import**.
-   - *(Alternatively, if working locally with a tunnel, you can append `?server_url=https://YOUR-TUNNEL-URL` or paste the schema manually)*.
+   - *All 16 API Gateway actions (covering SEO, Blogs, Services, Locations, and Service-Locations) will now appear under Available Actions!*
 3. Under **Authentication**:
    - Click the gear icon next to **Authentication**.
    - Select **API Key**.
@@ -100,10 +103,12 @@ Your objective is to manage the website's SEO metadata, blog posts, services, lo
 
 ---
 
-## 5. Test & Publish
+## 5. Test & Verify
 
-1. In the right-hand **Preview** panel, test with a prompt like:
-   - *"Show me all available services and cities"*
-   - *"Check SEO for /alberta/calgary"*
+1. In the right-hand **Preview** panel, test with prompts:
+   - *"Retrieve and inspect the page: https://galaxymoverscanada.com/alberta/antique-and-art-movers-in-airdrie"*
+   - *"Update the localized description for Antique and Art Movers in Airdrie to emphasize white-glove art handling and sync SEO metadata"*
 2. Click **Always allow** when prompted to authorize the action.
-3. Once satisfied, click **Create** or **Update** (top right) and choose **Only me** or **Anyone with a link** / **Public**.
+3. Confirm that the GPT retrieves the existing record (`id: 127`) and updates it in-place without creating duplicates.
+4. Once satisfied, click **Update** / **Publish** (top right).
+

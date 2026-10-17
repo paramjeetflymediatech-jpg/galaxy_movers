@@ -119,3 +119,11 @@ export async function POST(request) {
     return jsonResponse({ success: false, error: error.message }, { status: 500 });
   }
 }
+
+export async function PUT(request) {
+  return POST(request);
+}
+
+export async function PATCH(request) {
+  return POST(request);
+}
