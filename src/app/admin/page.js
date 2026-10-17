@@ -97,7 +97,7 @@ export default function AdminLogin() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@galaxymovers.ca"
+                  placeholder="admin@galaxymoverscanada.com"
                   className="w-full bg-gray-900/50 border border-gray-800 focus:border-red-600 text-white text-sm py-3 pl-11 pr-4 rounded-xl focus:outline-none transition-all font-medium"
                 />
               </div>

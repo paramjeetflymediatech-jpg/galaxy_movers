@@ -12,7 +12,7 @@ export async function GET() {
   // Force Next.js to run this route dynamically at request time
   await headers();
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://galaxymovers.ca';
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://galaxymoverscanada.com';
 
   // 1. Static Pages
   const staticPaths = [

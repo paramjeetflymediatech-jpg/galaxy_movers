@@ -146,7 +146,7 @@ export default function Footer() {
                   </span>
                   <a
                     href={
-                      `mailto:${ABOUT[0].email[0]}` || "info@galaxymovers.ca"
+                      `mailto:${ABOUT[0].email[0]}` || "info@galaxymoverscanada.com"
                     }
                     className="text-white font-semibold hover:text-red-500 transition-colors"
                   >
@@ -154,7 +154,7 @@ export default function Footer() {
                   </a>
                   <a
                     href={
-                      `mailto:${ABOUT[0].email[1]}` || "info@galaxymovers.ca"
+                      `mailto:${ABOUT[0].email[1]}` || "info@galaxymoverscanada.com"
                     }
                     className="text-white font-semibold hover:text-red-500 transition-colors"
                   >

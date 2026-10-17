@@ -220,7 +220,7 @@ export default function SeoManager({ initialRecords }) {
                   type="url"
                   value={canonicalUrl}
                   onChange={(e) => setCanonicalUrl(e.target.value)}
-                  placeholder="https://galaxymovers.ca/services/packing"
+                  placeholder="https://galaxymoverscanada.com/services/packing"
                   className="w-full bg-gray-50 border border-gray-150 focus:border-red-500 focus:bg-white text-sm py-2.5 px-4 rounded-lg focus:outline-none transition-all font-semibold text-gray-800"
                 />
               </div>

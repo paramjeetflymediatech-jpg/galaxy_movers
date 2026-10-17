@@ -23,15 +23,15 @@ const transporter = nodemailer.createTransport({
  * @returns {Promise<object>} - Details about the mail transport transaction.
  */
 export async function sendAdminNotificationEmail(subject, htmlContent) {
-  const adminEmailEnv = process.env.ADMIN_EMAIL || 'admin@galaxymovers.ca';
-  const smtpFrom = process.env.SMTP_FROM || 'noreply@galaxymovers.ca';
+  const adminEmailEnv = process.env.ADMIN_EMAIL || 'admin@galaxymoverscanada.com';
+  const smtpFrom = process.env.SMTP_FROM || 'noreply@galaxymoverscanada.com';
   const adminEmails = adminEmailEnv
     .split(/[;,]/)
     .map(email => email.trim())
     .filter(Boolean);
 
   // Fallback if parsing results in empty array
-  const recipients = adminEmails.length > 0 ? adminEmails : ['admin@galaxymovers.ca'];
+  const recipients = adminEmails.length > 0 ? adminEmails : ['admin@galaxymoverscanada.com'];
 
   // If SMTP user is not defined, mock the email submission in the console
   if (!process.env.SMTP_USER) {

@@ -38,7 +38,7 @@ async function main() {
   console.log('Database models synced successfully.');
 
   // Seed default Admin User
-  const adminEmail = 'admin@galaxymovers.ca';
+  const adminEmail = 'admin@galaxymoverscanada.com';
   const existingAdmin = await User.findOne({ where: { email: adminEmail } });
 
   if (!existingAdmin) {
@@ -60,7 +60,7 @@ async function main() {
       title: 'Galaxy Movers Canada | Stress-Free Moving Across Canada',
       description: "Canada's most trusted moving company. Providing professional packing, local, and long-distance moving services coast to coast. Get a free quote in 60 seconds!",
       keywords: 'moving company canada, galaxy movers, professional movers, cross country moving, same day movers',
-      canonical_url: 'https://galaxymovers.ca',
+      canonical_url: 'https://galaxymoverscanada.com',
       og_title: 'Galaxy Movers Canada - Professional Coast-to-Coast Moving',
       og_description: 'Stress-free residential and commercial moves across Canada. Fully licensed and insured team.',
       og_image: '/images/hero-bg.jpg',
@@ -79,7 +79,7 @@ async function main() {
       title: 'Galaxy Movers Blog | Moving Tips, Guides & Checklists',
       description: 'Expert moving tips, relocation guides, and packing checklists from professional Canadian movers. Make your next move smooth and simple!',
       keywords: 'moving tips, packing checklist, relocation guide, house moving advice',
-      canonical_url: 'https://galaxymovers.ca/blog',
+      canonical_url: 'https://galaxymoverscanada.com/blog',
       og_title: 'Moving Insights & Checklists | Galaxy Movers Canada',
       og_description: 'Discover expert moving strategies, packing hacks, and country-wide relocation guides.',
       og_image: '/images/blog-default.jpg'
@@ -89,7 +89,7 @@ async function main() {
       title: "About Galaxy Movers | Canada's Trusted Moving Experts",
       description: 'Learn about Galaxy Movers Canada, our professional background, state-of-the-art trucks, and commitment to stress-free relocation services across Canada.',
       keywords: 'about galaxy movers, professional movers, moving company history, Canadian movers',
-      canonical_url: 'https://galaxymovers.ca/about',
+      canonical_url: 'https://galaxymoverscanada.com/about',
       og_title: 'About Us | Galaxy Movers Canada',
       og_description: "Discover the story, mission, and professional credentials behind Canada's top relocation specialists."
     },
@@ -98,7 +98,7 @@ async function main() {
       title: 'Book a Moving Appointment | Galaxy Movers Canada',
       description: 'Schedule your professional moving date, select a convenient time slot, and secure your booking details with our coast-to-coast relocation team.',
       keywords: 'book moving appointment, schedule movers, reserve moving date, local movers booking',
-      canonical_url: 'https://galaxymovers.ca/book-appointment',
+      canonical_url: 'https://galaxymoverscanada.com/book-appointment',
       og_title: 'Book Your Moving Appointment | Galaxy Movers Canada',
       og_description: 'Schedule your relocation date and details with our expert movers today.'
     },
@@ -107,7 +107,7 @@ async function main() {
       title: 'Our Moving Services | Galaxy Movers Canada',
       description: 'Explore our complete range of professional moving services including residential moving, office moves, long-distance relocation, packing, and secure storage.',
       keywords: 'moving services, residential movers, office moving, long distance movers, packing services, storage solutions',
-      canonical_url: 'https://galaxymovers.ca/services',
+      canonical_url: 'https://galaxymoverscanada.com/services',
       og_title: 'Our Moving Services | Galaxy Movers Canada',
       og_description: 'Explore our complete range of professional moving services.'
     },
@@ -116,49 +116,49 @@ async function main() {
       title: 'Residential Moving Services | Galaxy Movers Canada',
       description: 'Stress-free residential moving services. From studio apartments to large family homes, our expert crew handles your belongings with absolute care.',
       keywords: 'residential moving, house movers, apartment moving, local movers',
-      canonical_url: 'https://galaxymovers.ca/services/residential-moving'
+      canonical_url: 'https://galaxymoverscanada.com/services/residential-moving'
     },
     {
       page_path: '/services/commercial-office-moves',
       title: 'Commercial & Office Moves | Galaxy Movers Canada',
       description: 'Minimize downtime with our efficient commercial moving services. We safely transport IT gear, workstations, archives, and office furniture.',
       keywords: 'commercial moving, office relocation, office movers, business move',
-      canonical_url: 'https://galaxymovers.ca/services/commercial-office-moves'
+      canonical_url: 'https://galaxymoverscanada.com/services/commercial-office-moves'
     },
     {
       page_path: '/services/long-distance-relocations',
       title: 'Long Distance Relocations | Galaxy Movers Canada',
       description: 'Reliable cross-provincial moving services. Our structured freight networks and long-haul fleets connect communities coast to coast.',
       keywords: 'long distance moving, cross province movers, long haul moving, out of province movers',
-      canonical_url: 'https://galaxymovers.ca/services/long-distance-relocations'
+      canonical_url: 'https://galaxymoverscanada.com/services/long-distance-relocations'
     },
     {
       page_path: '/services/professional-packing-services',
       title: 'Professional Packing Services | Galaxy Movers Canada',
       description: 'Delegate the packing and wrapping to the experts. We bring premium moving boxes, packing sheets, bubble wrap, and crating materials.',
       keywords: 'packing services, moving boxes packing, professional packers, fragile wrapping',
-      canonical_url: 'https://galaxymovers.ca/services/professional-packing-services'
+      canonical_url: 'https://galaxymoverscanada.com/services/professional-packing-services'
     },
     {
       page_path: '/services/furniture-disassembly-assembly',
       title: 'Furniture Disassembly & Assembly | Galaxy Movers Canada',
       description: 'Save time and effort on moving day. Our crew disassembles complex bed frames, modular wardrobes, and desks, then rebuilds them securely.',
       keywords: 'furniture disassembly, furniture assembly, bed frame assembly, office desk setup',
-      canonical_url: 'https://galaxymovers.ca/services/furniture-disassembly-assembly'
+      canonical_url: 'https://galaxymoverscanada.com/services/furniture-disassembly-assembly'
     },
     {
       page_path: '/services/secure-storage-solutions',
       title: 'Secure Storage Solutions | Galaxy Movers Canada',
       description: 'Flexible short and long-term storage vault options. Modern, climate-controlled, 24/7 CCTV protected national warehouse spaces.',
       keywords: 'secure storage, moving storage, climate controlled storage, storage vaults',
-      canonical_url: 'https://galaxymovers.ca/services/secure-storage-solutions'
+      canonical_url: 'https://galaxymoverscanada.com/services/secure-storage-solutions'
     },
     {
       page_path: '/locations',
       title: 'Service Locations Across Canada | Galaxy Movers Canada',
       description: 'Find Galaxy Movers service locations across Ontario, British Columbia, Alberta, Quebec, and Manitoba. Select your province and city to schedule a move.',
       keywords: 'moving locations, local moving company, canada movers, moving services by city',
-      canonical_url: 'https://galaxymovers.ca/locations'
+      canonical_url: 'https://galaxymoverscanada.com/locations'
     }
   ];
 
