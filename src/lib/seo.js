@@ -65,17 +65,19 @@ export async function getPageMetadata(path) {
     const page = pageData ? pageData.toJSON() : {};
     const global = globalData ? globalData.toJSON() : {};
  
-    const siteName = global.title || 'Galaxy Movers Canada';
+    const siteName = 'Galaxy Movers Canada';
     const defaultDesc = global.description || "Canada's most trusted moving company. Local & long distance moving.";
  
     let title = '';
     if (isGlobal) {
-      title = global.title || 'Galaxy Movers Canada';
+      title = global.title || siteName;
+    } else if (page.title) {
+      title = page.title;
     } else if (path === '/') {
-      title = page.title || siteName;
+      title = global.title || siteName;
     } else {
-      const pageTitle = page.title || (path.replace(/^\//, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()));
-      title = page.title ? `${page.title} | ${siteName}` : `${pageTitle} | ${siteName}`;
+      const pageTitle = path.replace(/^\//, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      title = `${pageTitle} | ${siteName}`;
     }
  
     const description = page.description || defaultDesc;
